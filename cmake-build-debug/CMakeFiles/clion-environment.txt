@@ -1,0 +1,2 @@
+Options: 
+CMake: 3.7.1@/home/dat/.local/share/umake/ide/clion/bin/cmake/bin/cmake
