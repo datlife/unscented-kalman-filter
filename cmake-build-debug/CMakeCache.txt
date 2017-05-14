@@ -121,7 +121,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=unscented_kalman_filter
+CMAKE_PROJECT_NAME:STATIC=UnscentedKF
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -179,10 +179,10 @@ ProcessorCount_cmd_getconf:FILEPATH=/usr/bin/getconf
 ProcessorCount_cmd_sysctl:FILEPATH=/sbin/sysctl
 
 //Value Computed by CMake
-unscented_kalman_filter_BINARY_DIR:STATIC=/home/dat/Documents/unscented-kalman-filter/cmake-build-debug
+UnscentedKF_BINARY_DIR:STATIC=/home/dat/Documents/unscented-kalman-filter/cmake-build-debug
 
 //Value Computed by CMake
-unscented_kalman_filter_SOURCE_DIR:STATIC=/home/dat/Documents/unscented-kalman-filter
+UnscentedKF_SOURCE_DIR:STATIC=/home/dat/Documents/unscented-kalman-filter
 
 
 ########################

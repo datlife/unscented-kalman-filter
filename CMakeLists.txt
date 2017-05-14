@@ -1,12 +1,12 @@
-project(unscented_kalman_filter)
+project(UnscentedKF)
 
 cmake_minimum_required (VERSION 3.5)
 
 add_definitions(-std=c++0x)
 
-set(SOURCE_FILES
-        main.cpp
-        ukf.cpp
-        ukf.h)
+set(sources
+   src/ukf.cpp
+   src/main.cpp
+   src/tools.cpp)
 
-add_executable(unscented_kalman_filter ${SOURCE_FILES})
+add_executable(UnscentedKF ${sources})

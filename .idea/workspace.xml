@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="unscented_kalman_filter" targetName="unscented_kalman_filter" />
+      <config projectName="UnscentedKF" targetName="UnscentedKF" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -11,7 +11,335 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="59b5e90c-f085-4c17-a149-65b0bff87527" name="Default" comment="" />
+    <list default="true" id="59b5e90c-f085-4c17-a149-65b0bff87527" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Cholesky/LLT_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/AssignEvaluator.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/ConditionEstimator.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/CoreEvaluators.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/CwiseTernaryOp.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/Inverse.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/MathFunctionsImpl.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/Product.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/ProductEvaluators.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/Solve.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/SolverBase.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX/Complex.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX/PacketMath.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX/TypeCasting.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX512/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AVX512/PacketMath.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AltiVec/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/Complex.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/Half.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/PacketMath.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/PacketMathHalf.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/CUDA/TypeCasting.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/NEON/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/TypeCasting.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/ZVector/Complex.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/ZVector/MathFunctions.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/ZVector/PacketMath.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/AssignmentFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/BinaryFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/NullaryFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/StlFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/TernaryFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/functors/UnaryFunctors.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/LU/InverseImpl.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/LU/PartialPivLU_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/QR/CompleteOrthogonalDecomposition.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/QR/HouseholderQR_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SVD/BDCSVD.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SVD/JacobiSVD_LAPACKE.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SVD/SVDBase.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseAssign.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseCompressedBase.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseMap.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseRef.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseSolverBase.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/misc/RealSvd2x2.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/misc/lapack.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/misc/lapacke.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Eigen/src/misc/lapacke_mangling.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/CXX.includecache" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/DependInfo.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/build.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/cmake_clean.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/depend.internal" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/depend.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/flags.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/link.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/main.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/progress.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/unscented_kalman_filter.dir/ukf.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/unscented_kalman_filter" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/unscented_kalman_filter.cbp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/main.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ukf.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ukf.h" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.7.1/CMakeDetermineCompilerABI_C.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.7.1/CMakeDetermineCompilerABI_C.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.7.1/CMakeDetermineCompilerABI_CXX.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.7.1/CMakeDetermineCompilerABI_CXX.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/CMakeLists.txt" afterPath="$PROJECT_DIR$/Eigen/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Cholesky" afterPath="$PROJECT_DIR$/Eigen/Cholesky" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/CholmodSupport" afterPath="$PROJECT_DIR$/Eigen/CholmodSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Core" afterPath="$PROJECT_DIR$/Eigen/Core" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Eigen" afterPath="$PROJECT_DIR$/Eigen/Eigen" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Eigenvalues" afterPath="$PROJECT_DIR$/Eigen/Eigenvalues" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Geometry" afterPath="$PROJECT_DIR$/Eigen/Geometry" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Householder" afterPath="$PROJECT_DIR$/Eigen/Householder" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/IterativeLinearSolvers" afterPath="$PROJECT_DIR$/Eigen/IterativeLinearSolvers" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Jacobi" afterPath="$PROJECT_DIR$/Eigen/Jacobi" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/LU" afterPath="$PROJECT_DIR$/Eigen/LU" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/MetisSupport" afterPath="$PROJECT_DIR$/Eigen/MetisSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/OrderingMethods" afterPath="$PROJECT_DIR$/Eigen/OrderingMethods" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/PaStiXSupport" afterPath="$PROJECT_DIR$/Eigen/PaStiXSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/PardisoSupport" afterPath="$PROJECT_DIR$/Eigen/PardisoSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/QR" afterPath="$PROJECT_DIR$/Eigen/QR" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/QtAlignedMalloc" afterPath="$PROJECT_DIR$/Eigen/QtAlignedMalloc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SPQRSupport" afterPath="$PROJECT_DIR$/Eigen/SPQRSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SVD" afterPath="$PROJECT_DIR$/Eigen/SVD" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/Sparse" afterPath="$PROJECT_DIR$/Eigen/Sparse" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SparseCholesky" afterPath="$PROJECT_DIR$/Eigen/SparseCholesky" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SparseCore" afterPath="$PROJECT_DIR$/Eigen/SparseCore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SparseLU" afterPath="$PROJECT_DIR$/Eigen/SparseLU" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SparseQR" afterPath="$PROJECT_DIR$/Eigen/SparseQR" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/StdDeque" afterPath="$PROJECT_DIR$/Eigen/StdDeque" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/StdList" afterPath="$PROJECT_DIR$/Eigen/StdList" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/StdVector" afterPath="$PROJECT_DIR$/Eigen/StdVector" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/SuperLUSupport" afterPath="$PROJECT_DIR$/Eigen/SuperLUSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/UmfPackSupport" afterPath="$PROJECT_DIR$/Eigen/UmfPackSupport" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Cholesky/LDLT.h" afterPath="$PROJECT_DIR$/Eigen/src/Cholesky/LDLT.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Cholesky/LLT.h" afterPath="$PROJECT_DIR$/Eigen/src/Cholesky/LLT.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/CholmodSupport/CholmodSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/CholmodSupport/CholmodSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Array.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Array.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/ArrayBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/ArrayBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/ArrayWrapper.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/ArrayWrapper.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Assign.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Assign.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Assign_MKL.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Assign_MKL.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/BandMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/BandMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Block.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Block.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/BooleanRedux.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/BooleanRedux.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CommaInitializer.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CommaInitializer.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CoreIterators.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CoreIterators.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CwiseBinaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CwiseBinaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CwiseNullaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CwiseNullaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CwiseUnaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CwiseUnaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/CwiseUnaryView.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/CwiseUnaryView.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/DenseBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/DenseBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/DenseCoeffsBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/DenseCoeffsBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/DenseStorage.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/DenseStorage.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Diagonal.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Diagonal.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/DiagonalMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/DiagonalMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/DiagonalProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/DiagonalProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Dot.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Dot.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/EigenBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/EigenBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/ForceAlignedAccess.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/ForceAlignedAccess.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Fuzzy.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Fuzzy.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/GeneralProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/GeneralProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/GenericPacketMath.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/GenericPacketMath.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/GlobalFunctions.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/GlobalFunctions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/IO.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/IO.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Map.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Map.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/MapBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/MapBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/MathFunctions.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/MathFunctions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Matrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Matrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/MatrixBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/MatrixBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/NestByValue.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/NestByValue.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/NoAlias.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/NoAlias.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/NumTraits.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/NumTraits.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/PermutationMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/PermutationMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/PlainObjectBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/PlainObjectBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Random.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Random.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Redux.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Redux.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Ref.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Ref.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Replicate.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Replicate.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/ReturnByValue.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/ReturnByValue.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Reverse.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Reverse.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Select.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Select.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/SelfAdjointView.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/SelfAdjointView.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/SelfCwiseBinaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/SelfCwiseBinaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/SolveTriangular.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/SolveTriangular.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/StableNorm.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/StableNorm.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Stride.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Stride.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Swap.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Swap.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Transpose.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Transpose.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Transpositions.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Transpositions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/TriangularMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/TriangularMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/VectorBlock.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/VectorBlock.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/VectorwiseOp.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/VectorwiseOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/Visitor.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/Visitor.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AltiVec/Complex.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/AltiVec/Complex.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/AltiVec/PacketMath.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/AltiVec/PacketMath.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/NEON/Complex.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/NEON/Complex.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/NEON/PacketMath.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/NEON/PacketMath.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/Complex.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/Complex.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/MathFunctions.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/MathFunctions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/PacketMath.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/arch/SSE/PacketMath.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralBlockPanelKernel.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralBlockPanelKernel.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixVector.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/GeneralMatrixVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/Parallelizer.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/Parallelizer.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixVector.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointMatrixVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointRank2Update.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/SelfadjointRank2Update.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixVector.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularMatrixVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularSolverMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularSolverMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularSolverVector.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/products/TriangularSolverVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/BlasUtil.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/BlasUtil.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/Constants.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/Constants.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/DisableStupidWarnings.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/DisableStupidWarnings.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/ForwardDeclarations.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/ForwardDeclarations.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/MKL_support.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/MKL_support.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/Macros.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/Macros.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/Memory.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/Memory.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/Meta.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/Meta.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/ReenableStupidWarnings.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/ReenableStupidWarnings.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/StaticAssert.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/StaticAssert.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Core/util/XprHelper.h" afterPath="$PROJECT_DIR$/Eigen/src/Core/util/XprHelper.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/ComplexEigenSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/ComplexEigenSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/ComplexSchur.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/ComplexSchur.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/EigenSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/EigenSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/HessenbergDecomposition.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/HessenbergDecomposition.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/RealQZ.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/RealQZ.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/RealSchur.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/RealSchur.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Eigenvalues/Tridiagonalization.h" afterPath="$PROJECT_DIR$/Eigen/src/Eigenvalues/Tridiagonalization.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/AlignedBox.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/AlignedBox.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/AngleAxis.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/AngleAxis.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/EulerAngles.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/EulerAngles.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Homogeneous.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Homogeneous.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Hyperplane.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Hyperplane.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/OrthoMethods.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/OrthoMethods.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/ParametrizedLine.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/ParametrizedLine.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Quaternion.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Quaternion.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Rotation2D.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Rotation2D.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/RotationBase.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/RotationBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Scaling.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Scaling.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Transform.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Transform.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Translation.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Translation.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/Umeyama.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/Umeyama.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Geometry/arch/Geometry_SSE.h" afterPath="$PROJECT_DIR$/Eigen/src/Geometry/arch/Geometry_SSE.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Householder/BlockHouseholder.h" afterPath="$PROJECT_DIR$/Eigen/src/Householder/BlockHouseholder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Householder/Householder.h" afterPath="$PROJECT_DIR$/Eigen/src/Householder/Householder.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Householder/HouseholderSequence.h" afterPath="$PROJECT_DIR$/Eigen/src/Householder/HouseholderSequence.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h" afterPath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h" afterPath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h" afterPath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h" afterPath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h" afterPath="$PROJECT_DIR$/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/Jacobi/Jacobi.h" afterPath="$PROJECT_DIR$/Eigen/src/Jacobi/Jacobi.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/LU/Determinant.h" afterPath="$PROJECT_DIR$/Eigen/src/LU/Determinant.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/LU/FullPivLU.h" afterPath="$PROJECT_DIR$/Eigen/src/LU/FullPivLU.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/LU/PartialPivLU.h" afterPath="$PROJECT_DIR$/Eigen/src/LU/PartialPivLU.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/LU/arch/Inverse_SSE.h" afterPath="$PROJECT_DIR$/Eigen/src/LU/arch/Inverse_SSE.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/MetisSupport/MetisSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/MetisSupport/MetisSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Amd.h" afterPath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Amd.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Eigen_Colamd.h" afterPath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Eigen_Colamd.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Ordering.h" afterPath="$PROJECT_DIR$/Eigen/src/OrderingMethods/Ordering.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/PaStiXSupport/PaStiXSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/PaStiXSupport/PaStiXSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/PardisoSupport/PardisoSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/PardisoSupport/PardisoSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/QR/ColPivHouseholderQR.h" afterPath="$PROJECT_DIR$/Eigen/src/QR/ColPivHouseholderQR.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/QR/FullPivHouseholderQR.h" afterPath="$PROJECT_DIR$/Eigen/src/QR/FullPivHouseholderQR.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/QR/HouseholderQR.h" afterPath="$PROJECT_DIR$/Eigen/src/QR/HouseholderQR.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SVD/JacobiSVD.h" afterPath="$PROJECT_DIR$/Eigen/src/SVD/JacobiSVD.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SVD/UpperBidiagonalization.h" afterPath="$PROJECT_DIR$/Eigen/src/SVD/UpperBidiagonalization.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCholesky/SimplicialCholesky.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCholesky/SimplicialCholesky.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/AmbiVector.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/AmbiVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/CompressedStorage.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/CompressedStorage.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/MappedSparseMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/MappedSparseMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseBlock.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseBlock.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseColEtree.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseColEtree.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseCwiseBinaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseCwiseBinaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseCwiseUnaryOp.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseCwiseUnaryOp.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDenseProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDenseProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDiagonalProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDiagonalProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDot.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseDot.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseFuzzy.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseFuzzy.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseMatrixBase.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseMatrixBase.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparsePermutation.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparsePermutation.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseProduct.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseProduct.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseRedux.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseRedux.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseSelfAdjointView.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseSelfAdjointView.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseSparseProductWithPruning.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseSparseProductWithPruning.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseTranspose.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseTranspose.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseTriangularView.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseTriangularView.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseUtil.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseUtil.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseVector.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseView.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/SparseView.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseCore/TriangularSolver.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseCore/TriangularSolver.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLUImpl.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLUImpl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Memory.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Memory.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Structs.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Structs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Utils.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_Utils.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_column_bmod.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_column_bmod.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_column_dfs.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_column_dfs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_gemm_kernel.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_gemm_kernel.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_kernel_bmod.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_kernel_bmod.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_panel_bmod.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_panel_bmod.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_panel_dfs.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_panel_dfs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_pivotL.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_pivotL.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_pruneL.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_pruneL.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_relax_snode.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseLU/SparseLU_relax_snode.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SparseQR/SparseQR.h" afterPath="$PROJECT_DIR$/Eigen/src/SparseQR/SparseQR.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/StlSupport/StdDeque.h" afterPath="$PROJECT_DIR$/Eigen/src/StlSupport/StdDeque.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/StlSupport/StdList.h" afterPath="$PROJECT_DIR$/Eigen/src/StlSupport/StdList.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/StlSupport/StdVector.h" afterPath="$PROJECT_DIR$/Eigen/src/StlSupport/StdVector.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/StlSupport/details.h" afterPath="$PROJECT_DIR$/Eigen/src/StlSupport/details.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/SuperLUSupport/SuperLUSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/SuperLUSupport/SuperLUSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/UmfPackSupport/UmfPackSupport.h" afterPath="$PROJECT_DIR$/Eigen/src/UmfPackSupport/UmfPackSupport.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/misc/Image.h" afterPath="$PROJECT_DIR$/Eigen/src/misc/Image.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/misc/Kernel.h" afterPath="$PROJECT_DIR$/Eigen/src/misc/Kernel.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/misc/blas.h" afterPath="$PROJECT_DIR$/Eigen/src/misc/blas.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/ArrayCwiseBinaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/ArrayCwiseBinaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/ArrayCwiseUnaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/ArrayCwiseUnaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/BlockMethods.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/BlockMethods.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/CommonCwiseBinaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/CommonCwiseBinaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/CommonCwiseUnaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/CommonCwiseUnaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/MatrixCwiseBinaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/MatrixCwiseBinaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Eigen/src/plugins/MatrixCwiseUnaryOps.h" afterPath="$PROJECT_DIR$/Eigen/src/plugins/MatrixCwiseUnaryOps.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,38 +351,71 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ukf.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ukf.cpp">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="66" column="5" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="66" selection-end-column="5" />
+            <state relative-caret-position="980">
+              <caret line="49" column="17" lean-forward="false" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#5799#6494#0" expanded="false" />
+                <element signature="e#6496#6865#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ukf.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="63" column="5" lean-forward="false" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
+              <folding>
+                <element signature="e#11448#14097#0" expanded="false" />
+                <element signature="e#16949#18180#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="readme.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/readme.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="0">
+                <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="ukf.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ukf.h">
+        <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding>
-                <element signature="e#28#50#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="18" column="80" lean-forward="false" selection-start-line="18" selection-start-column="80" selection-end-line="18" selection-end-column="80" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="640">
+              <caret line="32" column="48" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="32" selection-end-column="48" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -71,6 +432,8 @@
         <option value="$PROJECT_DIR$/ukf.h" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/ukf.cpp" />
+        <option value="$PROJECT_DIR$/src/main.cpp" />
+        <option value="$PROJECT_DIR$/lecture_notes/ukf.cpp" />
       </list>
     </option>
   </component>
@@ -81,9 +444,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
+    <option name="x" value="57" />
     <option name="y" value="-4" />
-    <option name="width" value="1855" />
+    <option name="width" value="1863" />
     <option name="height" value="1084" />
   </component>
   <component name="ProjectView">
@@ -105,11 +468,25 @@
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="unscented_kalman_filter" />
+              <option name="myItemId" value="UnscentedKF" />
               <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="unscented-kalman-filter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UnscentedKF" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unscented-kalman-filter" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -119,7 +496,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/dat/Documents/unscented-kalman-filter/src/tools.h" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -133,7 +517,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.unscented_kalman_filter">
+  <component name="RunManager" selected="Application.UnscentedKF">
     <configuration default="true" type="CLion_Remote" factoryName="GDB Remote Debug" remoteCommand="" symbolFile="" sysroot="">
       <method />
     </configuration>
@@ -320,13 +704,13 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="unscented_kalman_filter" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="unscented_kalman_filter" TARGET_NAME="unscented_kalman_filter" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="unscented_kalman_filter" RUN_TARGET_NAME="unscented_kalman_filter">
+    <configuration default="false" name="UnscentedKF" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="UnscentedKF" TARGET_NAME="UnscentedKF" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="UnscentedKF" RUN_TARGET_NAME="UnscentedKF">
       <envs />
       <method />
     </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
-      <item index="1" class="java.lang.String" itemvalue="Application.unscented_kalman_filter" />
+      <item index="1" class="java.lang.String" itemvalue="Application.UnscentedKF" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
@@ -342,29 +726,32 @@
       <workItem from="1493762752897" duration="1034000" />
       <workItem from="1493829829475" duration="8037000" />
       <workItem from="1493857779207" duration="4453000" />
+      <workItem from="1494437521445" duration="6377000" />
+      <workItem from="1494524601358" duration="4067000" />
+      <workItem from="1494712153871" duration="3463000" />
+      <workItem from="1494740877156" duration="243000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13524000" />
+    <option name="totallyTimeSpent" value="27674000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
+    <frame x="57" y="-4" width="1863" height="1084" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16819407" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16693506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31600407" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54841995" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08460754" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.062959075" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.062959075" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31600407" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -383,42 +770,210 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ukf.cpp</url>
-          <line>106</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/src/main.cpp</url>
+          <line>1</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ukf.cpp">
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="980">
+          <caret line="49" column="17" lean-forward="false" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#5799#6494#0" expanded="false" />
+            <element signature="e#6496#6865#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ukf.h">
+    <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="640">
-          <caret line="32" column="17" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <caret line="32" column="48" lean-forward="true" selection-start-line="30" selection-start-column="6" selection-end-line="32" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="63" column="5" lean-forward="true" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
           <folding>
-            <element signature="e#28#50#0" expanded="true" />
+            <element signature="e#11448#14097#0" expanded="false" />
+            <element signature="e#16949#18180#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" column="12" lean-forward="true" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+        <state relative-caret-position="980">
+          <caret line="49" column="17" lean-forward="true" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
+          <folding>
+            <element signature="e#5799#6494#0" expanded="false" />
+            <element signature="e#6496#6865#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ground_truth_package.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/measurement_package.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tools.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tools.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ukf.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ukf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ukf.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.h" />
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.h" />
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.h" />
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.h" />
+    <entry file="file://$PROJECT_DIR$/ukf.cpp" />
+    <entry file="file://$PROJECT_DIR$/Eigen/src/Core/CwiseBinaryOp.h" />
+    <entry file="file://$PROJECT_DIR$/ukf.h" />
+    <entry file="file://$PROJECT_DIR$/main.cpp" />
+    <entry file="file://$PROJECT_DIR$/ukf.cpp" />
+    <entry file="file://$PROJECT_DIR$/src/ground_truth_package.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/measurement_package.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tools.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ukf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ukf.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1326">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="32" column="48" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="32" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tools.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="980">
+          <caret line="49" column="17" lean-forward="false" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
+          <folding>
+            <element signature="e#5799#6494#0" expanded="false" />
+            <element signature="e#6496#6865#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lecture_notes/ukf.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="63" column="5" lean-forward="false" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
+          <folding>
+            <element signature="e#11448#14097#0" expanded="false" />
+            <element signature="e#16949#18180#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -427,80 +982,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="22" lean-forward="true" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ukf.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="25" column="16" lean-forward="true" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
-          <folding>
-            <element signature="e#28#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ukf.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="65" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Eigen/src/Core/CwiseBinaryOp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/readme.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ukf.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding>
-            <element signature="e#28#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="18" column="80" lean-forward="false" selection-start-line="18" selection-start-column="80" selection-end-line="18" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ukf.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="66" column="5" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="66" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
