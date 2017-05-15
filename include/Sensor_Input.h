@@ -6,14 +6,15 @@
 #define UNSCENTEDKF_SENSOR_INPUT_H
 #include "Dense"
 
+enum class SensorType{
+    LASER,
+    RADAR
+};
+
 class SensorInput{
     public:
         long long       timestamp_;
         Eigen::VectorXd data_;
-
-        enum SensorType{
-            LASER,
-            RADAR
-        } sensor_type_;
+        SensorType      sensor_type_;
 };
 #endif //UNSCENTEDKF_SENSOR_INPUT_H

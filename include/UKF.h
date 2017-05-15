@@ -11,10 +11,7 @@
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
-enum SensorType{
-    LASER,
-    RADAR
-};
+
 /*
  * Unscented Kalman Filter Object
  *
@@ -28,7 +25,7 @@ class UKF {
         int         n_aug_;           ///* Augmented state dimension
         int         n_sig_pts;        ///* Number of Sigma Points
         double      lambda_;          ///* Sigma point spreading parameter
-        long long   time_us_;         ///* time when the state is true, in us
+        long long   prev_time_us_;         ///* time when the state is true, in us
 
         VectorXd    x_;              ///* state vector: [pos1 pos2 vel_abs yaw_angle yaw_rate] in SI units and rad
         MatrixXd    P_;              ///* state covariance matrix
@@ -67,7 +64,7 @@ class UKF {
         * Predicts sigma points, the state, and the state covariance matrix
         * @param delta_t Time between k and k+1 in s
         */
-        void Predict(double delta_t);
+        void Predict(double delta_t, SensorType);
 
         /**
         * Updates the state and the state covariance matrix using a laser measurement
@@ -83,7 +80,8 @@ class UKF {
         /**
          * Helper functions
          * */
-        void PredictSigmaPoint(VectorXd &sigma_pt);
+        void Initialize_State(const SensorInput &first_input);
+        void PredictSigmaPoint(VectorXd &sigma_pt, const double &delta_t, int position);
         void ConvertStateToMeasurement(VectorXd &sigma_pt, SensorType);
 
     public:
@@ -97,13 +95,13 @@ class UKF {
         */
         VectorXd  getState()          const {return x_;}
         float     getState(int n)     const {return float(x_(n));}
-        double    getNIS(SensorType s)const {return (s==LASER) ? NIS_laser_ : NIS_radar_;}
+        double    getNIS(SensorType s)const {return (s==SensorType::LASER) ? NIS_laser_ : NIS_radar_;}
 
         /**
         * ProcessMeasurement
         *
         * Wrapper of Prediction and Update steps.
-        * This function will decide to call UpdateLiDar or UpdateRaDar
+        * Decide to call UpdateLiDar or UpdateRaDar
         *
         * @param  The latest measurement data of either radar or laser
         */

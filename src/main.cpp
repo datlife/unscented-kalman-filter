@@ -115,7 +115,7 @@ void read_input(ifstream &in_file_, vector<MeasurementPackage> &measurement_pack
             iss >> timestamp;
 
             // read measurements at this timestamp
-            meas_package.sensor_type_ = MeasurementPackage::LASER;
+            meas_package.sensor_type_ = SensorType::LASER;
             meas_package.data_ = VectorXd(2);
             meas_package.data_ << x, y;
             meas_package.timestamp_ = timestamp;
@@ -128,7 +128,7 @@ void read_input(ifstream &in_file_, vector<MeasurementPackage> &measurement_pack
             iss >> timestamp;
 
             // read measurements at this timestamp
-            meas_package.sensor_type_ = MeasurementPackage::RADAR;
+            meas_package.sensor_type_ = SensorType::RADAR;
             meas_package.data_ = VectorXd(3);
             meas_package.data_ << ro, phi, ro_dot;
             meas_package.timestamp_ = timestamp;
@@ -210,24 +210,24 @@ void write_output      (ofstream &out_file_,
     out_file_ << ukf.getState(4) << "\t"; // yaw_rate -est
 
     // output LiDar and radar specific data
-    if (measurement.sensor_type_ == MeasurementPackage::LASER) {
+    if (measurement.sensor_type_ == SensorType::LASER) {
         // sensor type
         out_file_ << "LiDar" << "\t";
 
         // NIS value
-        out_file_ << ukf.getNIS(LASER) << "\t";
+        out_file_ << ukf.getNIS(SensorType::LASER) << "\t";
 
         // output the LiDar sensor measurement px and py
         out_file_ << measurement.data_(0) << "\t";
         out_file_ << measurement.data_(1) << "\t";
 
     }
-    else if (measurement.sensor_type_ == MeasurementPackage::RADAR) {
+    else if (measurement.sensor_type_ == SensorType::RADAR) {
         // sensor type
         out_file_ << "Radar" << "\t";
 
         // NIS value
-        out_file_ << ukf.getNIS(RADAR) << "\t";
+        out_file_ << ukf.getNIS(SensorType::RADAR) << "\t";
 
         // output radar measurement in cartesian coordinates
         float ro   = float(measurement.data_(0));
