@@ -182,10 +182,8 @@ void fuse_data_sensors (ofstream &out_file_ ,
         ukf.ProcessMeasurement(measurement_pack_list[k]);
 
         convert_ukf_to_cartesian(ukf.getState(),ukf_x_cartesian_);
-
         estimations.push_back(ukf_x_cartesian_);
         ground_truth.push_back(gt_pack_list[k].data_);
-
         write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
     }
 

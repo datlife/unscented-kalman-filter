@@ -39,7 +39,10 @@ class UKF {
         MatrixXd    Z_radar_sig_pred_;///* [Radar Measurement Space] predicted sigma points matrix
         MatrixXd    Z_laser_sig_pred_;///* [LiDar Measurement Space] predicted sigma points matrix
         VectorXd    weights_;         ///* Weights of sigma points
-
+        VectorXd    z_laser_mean;
+        VectorXd    z_radar_mean;
+        MatrixXd    S_radar;
+        MatrixXd    S_laser;
 
         double      std_a_;          ///* Process noise standard deviation longitudinal acceleration in m/s^2
         double      std_yawdd_;      ///* Process noise standard deviation yaw acceleration in rad/s^2
@@ -81,8 +84,9 @@ class UKF {
          * Helper functions
          * */
         void Initialize_State(const SensorInput &first_input);
-        void PredictSigmaPoint(VectorXd &sigma_pt, const double &delta_t, int position);
-        void ConvertStateToMeasurement(VectorXd &sigma_pt, SensorType);
+        void PredictSigmaPoint(VectorXd &sigma_pt, const double &delta_t, int i);
+        void ConvertStateToMeasurement(VectorXd &sigma_pt, SensorType, int i);
+        void CalculateMeanCovariance(SensorType);
 
     public:
         /**
