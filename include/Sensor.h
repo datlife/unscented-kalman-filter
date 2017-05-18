@@ -14,7 +14,8 @@ enum class SensorType{
 class SensorInput{
     public:
         long long       timestamp_;
-        Eigen::VectorXd data_;
         SensorType      sensor_type_;
+        Eigen::VectorXd data_;
+        Eigen::MatrixXd noise_;
 };
 #endif //UNSCENTEDKF_SENSOR_INPUT_H
