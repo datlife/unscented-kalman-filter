@@ -172,25 +172,28 @@ void FuseSensors (ofstream &out_file_ ,
     UKF ukf;
     SensorFusion filter(&ukf);
     for (size_t k = 0; k < number_of_measurements; ++k) {
+
         // Call the UKF-based fusion
         filter.Process(measurement_pack_list[k]);
+
         // Estimated state is converted to Cartesian Space before writing to output
         convert_ukf_to_cartesian(filter.getState(),ukf_x_cartesian_);
+        estimations.push_back(ukf_x_cartesian_);
 
-        // estimations.push_back(ukf_x_cartesian_);
         // save ground truth value
-        // ground_truth.push_back(gt_pack_list[k].data_);
-        // write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
+        ground_truth.push_back(gt_pack_list[k].data_);
+
+        // Save to 'output.txt'
+        write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
 
         std::cout<< "\n------------------------------------------\n"
                  <<"STEP "<< k
-                 << "\n\nState X _\n"   <<  ukf_x_cartesian_<<"\n"
+                 << "\n\nState X _\n"  <<  ukf_x_cartesian_<<"\n"
                  << "\nGround Truth\n" << gt_pack_list[k].data_ <<"\n\n";
 
     }
-    // compute the accuracy (RMSE)
-    // Tools tools;
-    // cout << "RMSE" << endl << tools.CalculateRMSE(estimations, ground_truth) << endl;
+
+    std::cout << "RMSE" << endl << filter.calculate_RMSE(estimations, ground_truth) << std::endl;
     // @TODO: Compute NIS
 }
 
@@ -247,6 +250,7 @@ void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian)
     float vy_estimate_ = state(2) * sin(state(3)); //vy = v * sin(yaw)
     float yaw          = state(3);
     float yaw_rate     = state(4);
+
     ukf_in_cartesian << x_estimate_, y_estimate_, vx_estimate_, vy_estimate_, yaw, yaw_rate;
 
 }

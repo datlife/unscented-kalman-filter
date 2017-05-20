@@ -22,15 +22,15 @@ UKF::UKF() {
     Q_          = MatrixXd::Zero(2, 2);                  // Simplified because of using Augmented State
 
 
-    std_a_      = 0.2;                                   // Process noise standard deviation longitudinal acceleration in m/s^2
+    std_a_      = 3;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
     std_yawdd_  = 0.2;                                   // Process noise standard deviation yaw acceleration in rad/s^2
 
-    std_lasx    = 0.1;
+    std_lasx    = 0.3;
     std_lasy    = 0.1;
 
     std_radr    = 0.3;                 ///* Radar measurement noise standard deviation radius in m
-    std_radphi  = 0.03;                ///* radar measurement noise standard deviation angle in rad
-    std_radrd   = 0.1;                 ///* radar measurement noise standard deviation radius change in m/s
+    std_radphi  = 0.0175;                ///* radar measurement noise standard deviation angle in rad
+    std_radrd   = 0.01;                 ///* radar measurement noise standard deviation radius change in m/s
 
     R_lidar     = MatrixXd::Zero(2, 2);
     R_radar     = MatrixXd::Zero(3, 3);
@@ -50,7 +50,7 @@ void UKF::initialize(const Sensor &new_input) {
             double rho = measurement(0);
             double phi = measurement(1);
             double rho_rate = measurement(2);
-            x_ << rho * cos(phi), rho * sin(phi), rho_rate, 0, 0;
+            x_ << rho * cos(phi), rho * sin(phi), 0, rho_rate, 0;
         }
             break;
         case SensorType::LASER:
@@ -59,11 +59,8 @@ void UKF::initialize(const Sensor &new_input) {
     }
 
     P_.diagonal()      << 0.1, 0.1, 0.1, 0.1, 0.1;
-
     Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
-
     R_lidar.diagonal() << pow(std_lasx, 2), pow(std_lasy, 2);
-
     R_radar.diagonal() << pow(std_radr, 2), pow(std_radphi, 2), pow(std_radrd, 2);
 
     // Init Weight
@@ -80,7 +77,6 @@ void UKF::Predict(double delta_t){
     ****************************************************************************/
     MatrixXd SigmaPts = GenerateSigmaPoints();
 
-
     /*****************************************************************************
     *  2. Predict Sigma Points
     ****************************************************************************/
@@ -96,20 +92,22 @@ void UKF::Predict(double delta_t){
 
 void UKF::Update(const Sensor& new_input){
 
-    int size = new_input.data_.rows();
+    int size        = new_input.data_.rows();
     SensorType type = new_input.sensor_type_;
-
     /**
      * *******************************************************************************
-     * Calculate Measurement Mean & Covariance
+     * Calculate Measurement Predicted Mean & Covariance
      * *******************************************************************************
      */
     VectorXd z_mean = ConvertToMeasurement(x_, new_input.sensor_type_);
     MatrixXd Z_sigma_pred(size, 2*n_aug_ + 1);
+
     for( int i = 0; i < Xsig_pred_.cols(); i++){
         Z_sigma_pred.col(i) = ConvertToMeasurement(Xsig_pred_.col(i), new_input.sensor_type_);
     }
-
+    std::cout <<"\n****Mean**** \n" <<z_mean
+              <<"\n***Measurement**\n" << new_input.data_
+              <<"\n***State***\n" <<x_<<"\n";
     /**
      * *****************************************************************************
      * Calculate Cross-Translation Matrix (upper top of Kalman Gain)
@@ -119,16 +117,13 @@ void UKF::Update(const Sensor& new_input){
     MatrixXd S  = MatrixXd::Zero(size, size);
     MatrixXd Tc = MatrixXd::Zero(n_x_, size);
 
-    // Calculate cross correlation matrix
+    // Calculate Cross-Correlation matrix
     for (int i = 0; i < 2*n_aug_ + 1; i++) {
-        // Residual
-        VectorXd z_diff = Z_sigma_pred.col(i) - z_mean;
-        // State difference
-        VectorXd x_diff = Xsig_pred_.col(i) - x_;
+        VectorXd z_diff = Z_sigma_pred.col(i) - z_mean;        // Residual
+        VectorXd x_diff = Xsig_pred_.col(i) - x_;              // State difference
 
         if (type == SensorType::RADAR)
             normalize_angle(z_diff(1));
-
         normalize_angle(x_diff(1));
 
         S  += weights_(i) * z_diff * z_diff.transpose();
@@ -141,9 +136,7 @@ void UKF::Update(const Sensor& new_input){
      * Calculate Kalman Gain
      * *****************************************************************************
      */
-    // Kalman gain K;
     MatrixXd K = Tc * S.inverse();
-
 
     /**
      * *****************************************************************************
@@ -158,9 +151,9 @@ void UKF::Update(const Sensor& new_input){
     x_ = x_ + K * z_diff;
     P_ = P_ - K*S*K.transpose();
 
+    normalize_angle(x_(3));
     std::cout << ((new_input.sensor_type_ == SensorType::LASER)?"LIDAR" : "RADAR");
 }
-
 
 
 /**
@@ -172,8 +165,13 @@ void UKF::normalize_angle(double &angle){
 }
 
 /**
- * Helper function in Prediction Step
- */
+ * ----------------------------------------------------------------------------------------------------
+ * GenerateSigmaPoints()
+ * ---------------------------------------------------------------------------------------------------
+ * Helper function for Prediction Step
+ *      Number of sigma points = 2 * state_dimension + 1
+
+ * */
 MatrixXd UKF::GenerateSigmaPoints(){
 
     MatrixXd SigmaPts = MatrixXd::Zero(n_aug_, 2*n_aug_ + 1);
@@ -188,7 +186,7 @@ MatrixXd UKF::GenerateSigmaPoints(){
     MatrixXd L = P_aug.llt().matrixL();
 
     x_aug.head(n_x_) = x_;
-    SigmaPts.col(0) = x_aug;
+    SigmaPts.col(0)  = x_aug;
 
     // Calculate sigma points
     for (int i = 0; i < n_aug_; i++){
@@ -232,6 +230,8 @@ VectorXd UKF::PredictSigmaPoint(const VectorXd &sigma_pt, const double &delta_t)
     }
 
     VectorXd x_sigma_pts(n_x_);
+
+    //CRTV Model
     x_sigma_pts << \
         px   +    px_rate      + 0.5  * nu_a*cos(yaw) * dt2,
         py   +    py_rate      + 0.5  * nu_a*sin(yaw) * dt2,

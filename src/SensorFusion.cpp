@@ -32,16 +32,16 @@ void SensorFusion::Process(const Sensor& new_input) {
         /*****************************************************************************
         *  Prediction
         ****************************************************************************/
-        while(delta_t > 0.01){
-            filter_->Predict(delta_t);
-            delta_t -= 0.01;
+        while(delta_t > 0.05){
+           filter_->Predict(delta_t);
+            delta_t -= 0.05;
         }
         filter_->Predict(delta_t);
 
         /*****************************************************************************
         *  Update
         ****************************************************************************/
-        if (new_input.sensor_type_== SensorType::RADAR)
+        //if (new_input.sensor_type_== SensorType::RADAR)
             filter_->Update(new_input);
 
 
@@ -63,3 +63,38 @@ double SensorFusion::calculate_NIS(const Sensor &measured) {
     return NIS;
 }
 
+Eigen::VectorXd SensorFusion::calculate_RMSE(const std::vector<Eigen::VectorXd> &estimations,
+                                             const std::vector<Eigen::VectorXd> &ground_truth){
+    // Measure error of postion and velocity
+    Eigen::VectorXd rmse = Eigen::VectorXd::Zero(6);
+
+    // Check the validity of the following inputs:
+    if (estimations.size() == 0 ){
+        std::cout << "No estimation is found.\n";
+        return rmse;
+    }
+
+    // The estimation vector size should equal ground truth vector size
+    if (estimations.size() != ground_truth.size()){
+        std::cout  << "Size mismatched between estimation and ground truth\n";
+        return rmse;
+    }
+
+    // Accumulate squared residuals
+    for(int i=0; i < 6; ++i){
+        // Calculate x - x_true
+        Eigen::VectorXd residual = estimations[i].head(6) - ground_truth[i].head(6);
+
+        //coefficient-wise multiplication : (x - x_true)^2
+        residual = residual.array()*residual.array();
+
+        rmse += residual;
+    }
+    //calculate the mean
+    rmse = rmse / estimations.size();
+
+    //calculate the squared root
+    rmse = rmse.array().sqrt();
+    //return the result
+    return rmse;
+}
