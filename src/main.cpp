@@ -3,34 +3,35 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "Dense"
-#include "UKF.h"
-#include "Sensor_Input.h"
 #include <stdlib.h>
 
+#include "Dense"
+#include "Sensor.h"
+#include "SensorFusion.h"
+#include "UKF.h"
 
 using namespace std;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
 
-typedef SensorInput GroundTruthPackage;
-typedef SensorInput MeasurementPackage;
+typedef Sensor GroundTruthPackage;
+typedef Sensor MeasurementPackage;
 
 //============================ Function Prototypes ============================================
 void validate_arguments(int argc, char **argv);
 void check_files       (ifstream &, ofstream& out_file);
 void read_input        (ifstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
-void fuse_data_sensors (ofstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
+void FuseSensors (ofstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
 void write_output      (ofstream &, const UKF &, const MeasurementPackage &, const GroundTruthPackage &);
 void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian);
 
 // Input format :
-// -----------------------------------------------------------------------------------------------------------------
-// | SENSOR    |                      RAW DATA                           |         GROUND TRUTH  FOR CRTV MODEL     |
-// -----------------------------------------------------------------------------------------------------------------
-// |   LASER   | X POS    | Y POS       | TIME STAMP        | N/A        |  X POS | Y POS | V   | YAW  |   YAW_RATE |<-- Cartesian Coordinate
-// |   RADAR   | DIST RHO | ANGLE THETA | DIST_RATE RHO DOT | TIME STAMP | X POS  | Y POS | V   | YAW  |   YAW_RATE |<-- Polar Coordinate
+// ------------------------------------------------------------------------------------------------------------------------
+// | SENSOR    |                      RAW DATA                           |         GROUND TRUTH  FOR CRTV MODEL           |
+// -----------------------------------------------------------------------------------------------------------------------
+// |   LASER   | X POS    | Y POS       | TIME STAMP        | N/A        |  X POS | Y POS | VX  | VY  | YAW  |   YAW_RATE |<-- Cartesian Coordinate
+// |   RADAR   | DIST RHO | ANGLE THETA | DIST_RATE RHO DOT | TIME STAMP | X POS  | Y POS | V   | VY  | YAW  |   YAW_RATE |<-- Polar Coordinate
 // |----------------------------------------------------------------------------------------------------------------
 
 // Result with obj_pose-laser-radar-synthetic-input.txt
@@ -46,10 +47,10 @@ int main(int argc, char* argv[]) {
 
     vector<MeasurementPackage> measurement_pack_list;     // Used to store data from input file
     vector<GroundTruthPackage> gt_pack_list;
+    read_input(in_file_, measurement_pack_list, gt_pack_list);    // Input is (Laser/Radar Measurement)
 
-    // Input is (Laser/Radar Measurement)
-    read_input(in_file_, measurement_pack_list, gt_pack_list);
-    fuse_data_sensors(out_file_,measurement_pack_list, gt_pack_list);
+    // Sensor Fusion
+    FuseSensors(out_file_,measurement_pack_list, gt_pack_list);
 
     // close files
     if (out_file_.is_open()) out_file_.close();
@@ -135,60 +136,60 @@ void read_input(ifstream &in_file_, vector<MeasurementPackage> &measurement_pack
             measurement_pack_list.push_back(meas_package);
         }
         // Read ground truth data to compare later
-        float x_gt, y_gt, vx_gt, vy_gt;
-        gt_package.data_ = VectorXd(4);
+        float x_gt, y_gt, vx_gt, vy_gt, yaw_gt, yaw_rate_gt;
+        gt_package.data_ = VectorXd(6);
 
-        iss >> x_gt >> y_gt;    // ground truth of current Position
-        iss >> vx_gt >>vy_gt;   // ground truth of current Velocity
-        gt_package.data_ << x_gt, y_gt, vx_gt, vy_gt;
+        iss >> x_gt  >> y_gt;    // ground truth of current Position
+        iss >> vx_gt >> vy_gt;   // ground truth of current Velocity
+        iss >> yaw_gt>> yaw_rate_gt;
+        gt_package.data_ << x_gt, y_gt, vx_gt, vy_gt, yaw_gt, yaw_rate_gt;
         gt_pack_list.push_back(gt_package);
     }
 }
 
-void fuse_data_sensors (ofstream &out_file_ ,
+void FuseSensors (ofstream &out_file_ ,
                         vector<MeasurementPackage> & measurement_pack_list,
                         vector<GroundTruthPackage> &gt_pack_list){
-    // Create a UKF instance
-    // @TODO: Restructure UKF
-    UKF ukf;
 
     // used to compute the RMSE later
     vector<VectorXd> estimations;
     vector<VectorXd> ground_truth;
 
     // column names for output file
-    out_file_ << "time_stamp" << "\t"
-              << "px_state" << "\t"
-              << "py_state" << "\t"
-              << "v_state" << "\t"
-              << "yaw_angle_state" << "\t"
-              << "yaw_rate_state" << "\t"
-              << "sensor_type" << "\t"
-              << "NIS" << "\t";
+    out_file_ << "time_stamp" << "\t"  << "px_state" << "\t" << "py_state" << "\t" << "v_state" << "\t"  << "yaw_angle_state" << "\t" << "yaw_rate_state" << "\t"
+              << "sensor_type" << "\t" << "NIS" << "\t";
 
     out_file_ << "px_measured" << "\t" << "py_measured" << "\t"
               << "px_ground_truth" << "\t" << "py_ground_truth" << "\t"
               << "vx_ground_truth" << "\t" << "vy_ground_truth" << "\n";
 
-
     // start filtering from the second frame (the speed is unknown in the first frame)
     size_t number_of_measurements = measurement_pack_list.size();
 
     // Convert ukf x vector to cartesian to compare to ground truth
-    VectorXd ukf_x_cartesian_ = VectorXd(4);
-
+    VectorXd ukf_x_cartesian_(6);
+    // Create a UKF instance
+    UKF ukf;
+    SensorFusion filter(&ukf);
     for (size_t k = 0; k < number_of_measurements; ++k) {
         // Call the UKF-based fusion
-        ukf.ProcessMeasurement(measurement_pack_list[k]);
+        filter.Process(measurement_pack_list[k]);
+        // Estimated state is converted to Cartesian Space before writing to output
+        convert_ukf_to_cartesian(filter.getState(),ukf_x_cartesian_);
 
-        convert_ukf_to_cartesian(ukf.getState(),ukf_x_cartesian_);
-        estimations.push_back(ukf_x_cartesian_);
-        ground_truth.push_back(gt_pack_list[k].data_);
-        write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
+        // estimations.push_back(ukf_x_cartesian_);
+        // save ground truth value
+        // ground_truth.push_back(gt_pack_list[k].data_);
+        // write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
+
+        std::cout<< "\n------------------------------------------\n"
+                 <<"STEP "<< k
+                 << "\n\nState X _\n"   <<  ukf_x_cartesian_<<"\n"
+                 << "\nGround Truth\n" << gt_pack_list[k].data_ <<"\n\n";
+
     }
-
     // compute the accuracy (RMSE)
-    Tools tools;
+    // Tools tools;
     // cout << "RMSE" << endl << tools.CalculateRMSE(estimations, ground_truth) << endl;
     // @TODO: Compute NIS
 }
@@ -199,8 +200,6 @@ void write_output      (ofstream &out_file_,
                         const GroundTruthPackage &ground_truth){
     // timestamp
     out_file_ << measurement.timestamp_ << "\t"; // pos1 - est
-
-    // output the state vector
     out_file_ << ukf.getState(0) << "\t"; // pos1 - est
     out_file_ << ukf.getState(1) << "\t"; // pos2 - est
     out_file_ << ukf.getState(2) << "\t"; // vel_abs -est
@@ -213,7 +212,7 @@ void write_output      (ofstream &out_file_,
         out_file_ << "LiDar" << "\t";
 
         // NIS value
-        out_file_ << ukf.getNIS(SensorType::LASER) << "\t";
+        //out_file_ << ukf.getNIS(SensorType::LASER) << "\t";
 
         // output the LiDar sensor measurement px and py
         out_file_ << measurement.data_(0) << "\t";
@@ -225,7 +224,7 @@ void write_output      (ofstream &out_file_,
         out_file_ << "Radar" << "\t";
 
         // NIS value
-        out_file_ << ukf.getNIS(SensorType::RADAR) << "\t";
+       // out_file_ << ukf.getNIS(SensorType::RADAR) << "\t";
 
         // output radar measurement in cartesian coordinates
         float ro   = float(measurement.data_(0));
@@ -242,12 +241,12 @@ void write_output      (ofstream &out_file_,
 }
 
 void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian){
-
-    float x_estimate_  = state(0);
-    float y_estimate_  = state(1);
-    float vx_estimate_ = state(2) * cos(state(3));
-    float vy_estimate_ = state(2) * sin(state(3));
-
-    ukf_in_cartesian << x_estimate_, y_estimate_, vx_estimate_, vy_estimate_;
+    float x_estimate_  = state(0); //px
+    float y_estimate_  = state(1); //py
+    float vx_estimate_ = state(2) * cos(state(3)); //vx = v * cos(yaw)
+    float vy_estimate_ = state(2) * sin(state(3)); //vy = v * sin(yaw)
+    float yaw          = state(3);
+    float yaw_rate     = state(4);
+    ukf_in_cartesian << x_estimate_, y_estimate_, vx_estimate_, vy_estimate_, yaw, yaw_rate;
 
 }

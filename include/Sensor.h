@@ -11,7 +11,7 @@ enum class SensorType{
     RADAR
 };
 
-class SensorInput{
+class Sensor{
     public:
         long long       timestamp_;
         SensorType      sensor_type_;

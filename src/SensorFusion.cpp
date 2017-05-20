@@ -3,6 +3,7 @@
 //
 #include "SensorFusion.h"
 
+#include <iostream>
 /**
  * Constructor
  * @param new_input
@@ -12,17 +13,42 @@ SensorFusion::SensorFusion(KalmanFilter* filter){
 }
 void SensorFusion::Process(const Sensor& new_input) {
 
-    if (initialized_ != true) {
-
+    /**
+      TODO:
+      */
+    if (!initialized_) {
+        filter_->initialize(new_input);
+        prev_time_us_ = new_input.timestamp_;
+        initialized_ = true;
     }
     else{
-            float delta_time = (float) ((new_input.timestamp_ - prev_time_step_) / 1000000.0);
-            if (delta_time < 0.0001)
-                return;
-            prev_time_step_ = new_input.timestamp_;
+        float delta_t = (float)((new_input.timestamp_ - prev_time_us_) / 1000000.0);
+        if (delta_t < 0.0001)   // zero-check
+            return;
+        prev_time_us_ = new_input.timestamp_;
 
-            filter_->Predict(delta_time);
+
+        // std::cout <<" Time step: " << delta_t << std::endl;
+        /*****************************************************************************
+        *  Prediction
+        ****************************************************************************/
+        while(delta_t > 0.01){
+            filter_->Predict(delta_t);
+            delta_t -= 0.01;
+        }
+        filter_->Predict(delta_t);
+
+        /*****************************************************************************
+        *  Update
+        ****************************************************************************/
+        if (new_input.sensor_type_== SensorType::RADAR)
             filter_->Update(new_input);
+
+
+        /*****************************************************************************
+        *  Update Normalized Innovation Squared error
+        ****************************************************************************/\
+
     }
 }
 /**

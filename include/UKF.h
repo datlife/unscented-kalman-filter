@@ -1,15 +1,13 @@
 #ifndef UKF_H
 #define UKF_H
 
-#include "Sensor_Input.h"
+#include "Sensor.h"
 #include "Dense"
 #include <vector>
 #include <string>
 #include <fstream>
-#include "Tools.h"
+#include "KalmanFilter.h"
 
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
 
 
 /*
@@ -17,100 +15,58 @@ using Eigen::VectorXd;
  *
  * Fuse LiDar and RaDar Sensor Input with CRTV model (Constant Turn Rate and Velocity Driving Model)
  */
-class UKF {
+class UKF : public KalmanFilter{
 
     private:
 
-        int         n_x_;             ///* State dimension
-        int         n_aug_;           ///* Augmented state dimension
-        int         n_sig_pts;        ///* Number of Sigma Points
-        double      lambda_;          ///* Sigma point spreading parameter
-        long long   prev_time_us_;         ///* time when the state is true, in us
+        int                n_x_;             ///* State dimension
+        int                n_aug_;           ///* Augmented state dimension
+        double             lambda_;          ///* Sigma point spreading parameter
 
-        VectorXd    x_;              ///* state vector: [pos1 pos2 vel_abs yaw_angle yaw_rate] in SI units and rad
-        MatrixXd    P_;              ///* state covariance matrix
-        MatrixXd    P_aug_;          ///* state covariance matrix
+        double             std_a_;           ///* Process noise standard deviation longitudinal acceleration in m/s^2
+        double             std_yawdd_;       ///* Process noise standard deviation yaw acceleration in rad/s^2
 
-        MatrixXd    Q_;              ///* Process Covariance Noise Matrix (P = P_old + Q)
-        MatrixXd    R_LiDar_;        ///* LiDar Sensor Noise Covariance Matrix (Used to update Kalman Gain)
-        MatrixXd    R_RaDar_;        ///* RaDar Sensor Noise Covariance Matrix (_)
+        double             std_lasx;
+        double             std_lasy;
 
-        MatrixXd    Xsig_pred_;       ///* [State Space] predicted sigma points matrix
-        MatrixXd    Z_radar_sig_pred_;///* [Radar Measurement Space] predicted sigma points matrix
-        MatrixXd    Z_laser_sig_pred_;///* [LiDar Measurement Space] predicted sigma points matrix
-        VectorXd    weights_;         ///* Weights of sigma points
-        VectorXd    z_laser_mean;
-        VectorXd    z_radar_mean;
-        MatrixXd    S_radar;
-        MatrixXd    S_laser;
+        double             std_radr;         ///* Radar measurement noise standard deviation radius in m
+        double             std_radphi;       ///* radar measurement noise standard deviation angle in rad
+        double             std_radrd;        ///* radar measurement noise standard deviation radius change in m/s
 
-        double      std_a_;          ///* Process noise standard deviation longitudinal acceleration in m/s^2
-        double      std_yawdd_;      ///* Process noise standard deviation yaw acceleration in rad/s^2
+        Eigen::MatrixXd    Xsig_pred_;       ///* Predicted sigma points matrix
+        Eigen::VectorXd    weights_;         ///* Weights of sigma points
+        Eigen::MatrixXd    R_lidar;
+        Eigen::MatrixXd    R_radar;
 
-        double      std_laspx_;      ///* Laser measurement noise standard deviation position1 in m
-        double      std_laspy_;      ///* Laser measurement noise standard deviation position2 in m
 
-        double      std_radr_;      ///* Radar measurement noise standard deviation radius in m
-        double      std_radphi_;    ///* Radar measurement noise standard deviation angle in rad
-        double      std_radrd_ ;    ///* Radar measurement noise standard deviation radius change in m/s
+    protected:
+        virtual void    Predict(double delta_t);
+        virtual void    Update(const Sensor&);
 
-        double      NIS_radar_;     ///* the current NIS for radar
-        double      NIS_laser_;     ///* the current NIS for laser
-
-        bool        is_initialized_;  ///* initially set to false, set to true in first call of ProcessMeasurement
-        bool        use_laser_;       ///* if this is false, laser measurements will be ignored (except for init)
-        bool        use_radar_;       ///* if this is false, radar measurements will be ignored (except for init)
+        void            normalize_angle(double &angle);
 
         /**
-        * Prediction
-        *
-        * Predicts sigma points, the state, and the state covariance matrix
-        * @param delta_t Time between k and k+1 in s
-        */
-        void Predict(double delta_t, SensorType);
+         * Helper Functions for Prediction Step
+         */
+        Eigen::MatrixXd GenerateSigmaPoints();
+        Eigen::VectorXd PredictSigmaPoint(const Eigen::VectorXd &sigma_pt, const double &delta_t);
+        void            CalculateMeanAndCovariance();
 
         /**
-        * Updates the state and the state covariance matrix using a laser measurement
-        */
-        void UpdateLidar(SensorInput);
-
-        /**
-        * Updates the state and the state covariance matrix using a radar measurement
-        * @param  The measurement at k+1
-        */
-        void UpdateRadar(SensorInput);
-
-        /**
-         * Helper functions
-         * */
-        void Initialize_State(const SensorInput &first_input);
-        void PredictSigmaPoint(VectorXd &sigma_pt, const double &delta_t, int i);
-        void ConvertStateToMeasurement(VectorXd &sigma_pt, SensorType, int i);
-        void CalculateMeanCovariance(SensorType);
-
+         * Helper Functions for Update Step
+         */
+        Eigen::VectorXd ConvertToMeasurement(const Eigen::VectorXd &, const SensorType &);
     public:
         /**
         * Constructor
         */
         UKF();
 
+        virtual void initialize(const Sensor&);
         /**
         * Getter Functions
         */
-        VectorXd  getState()          const {return x_;}
         float     getState(int n)     const {return float(x_(n));}
-        double    getNIS(SensorType s)const {return (s==SensorType::LASER) ? NIS_laser_ : NIS_radar_;}
-
-        /**
-        * ProcessMeasurement
-        *
-        * Wrapper of Prediction and Update steps.
-        * Decide to call UpdateLiDar or UpdateRaDar
-        *
-        * @param  The latest measurement data of either radar or laser
-        */
-        void ProcessMeasurement(SensorInput);
-
 
         /**
         * Destructor

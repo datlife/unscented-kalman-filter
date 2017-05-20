@@ -16,6 +16,7 @@ class SensorFusion{
         Eigen::MatrixXd             S_;
         double                      prev_time_step_;
         bool                        initialized_;
+        long long                   prev_time_us_;    ///* time when the state is true, in us
 
 public:
         SensorFusion(KalmanFilter*);
