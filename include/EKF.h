@@ -19,7 +19,7 @@ class EKF : public KalmanFilterBase
         virtual void   initialize(const Sensor&);
         virtual void   Predict(double delta_time);
         virtual void   Update(const Sensor&);
-        virtual double getNIS() const;
+        virtual double getNIS() const {return nis_;};
 
         ~EKF();
     protected:
@@ -30,7 +30,16 @@ class EKF : public KalmanFilterBase
         double          noise_ax_;
         double          noise_ay_;
 
-        Eigen::MatrixXd F_;
+        double          nis_;
+
+        double          std_lasx;
+        double          std_lasy;
+
+        double          std_radr;         ///* Radar measurement noise standard deviation radius in m
+        double          std_radphi;       ///* radar measurement noise standard deviation angle in rad
+        double          std_radrd;        ///* radar measurement noise standard deviation radius change in m/s
+
+    Eigen::MatrixXd F_;
         Eigen::MatrixXd R_laser;
         Eigen::MatrixXd R_radar;
 

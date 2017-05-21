@@ -22,7 +22,7 @@ public:
         Eigen::VectorXd getState() const { return filter_->getState();}
 
         double          calculate_NIS() const;
-        Eigen::VectorXd calculate_RMSE(const std::vector<Eigen::VectorXd> &estimations, const std::vector<Eigen::VectorXd> &ground_truth);
+        Eigen::VectorXd calculate_RMSE(std::vector<Eigen::VectorXd> &estimations, std::vector<Eigen::VectorXd> &ground_truth);
 
 };
 #endif //UNSCENTEDKF_SENSORFUSION_H

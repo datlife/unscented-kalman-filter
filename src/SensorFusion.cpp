@@ -62,8 +62,8 @@ double SensorFusion::calculate_NIS() const {
 *
 * Formula: Error = sqrt((X_estimated - X_gt)^2)
 */
-Eigen::VectorXd SensorFusion::calculate_RMSE(const std::vector<Eigen::VectorXd> &estimations,
-                                             const std::vector<Eigen::VectorXd> &ground_truth){
+Eigen::VectorXd SensorFusion::calculate_RMSE(std::vector<Eigen::VectorXd> &estimations,
+                                             std::vector<Eigen::VectorXd> &ground_truth){
 
     int size = 4;
     // Measure error of postion and velocity

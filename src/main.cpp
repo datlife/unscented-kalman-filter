@@ -164,10 +164,10 @@ void FuseSensors (ofstream &out_file_ ,
    //  write_output_header(out_file_);
 
     // Create Kalman Filters
-    //EKF ekf;
+    EKF ekf;
     UKF ukf;
     //SensorFusion filter(&ekf);
-    SensorFusion filter(&ukf);
+    SensorFusion filter(&ekf);
     double prev_time = 0.0;
     for (size_t k = 0; k < measurement_pack_list.size(); ++k) {
 
@@ -183,7 +183,6 @@ void FuseSensors (ofstream &out_file_ ,
 
         // Save to 'output.
         write_output(out_file_, filter, measurement_pack_list[k], gt_pack_list[k]);
-
 
         std::cout << ((measurement_pack_list[k].sensor_type_ == SensorType::LASER)?"LIDAR" : "RADAR");
         std::cout<< "\n------------------------------------------\n"

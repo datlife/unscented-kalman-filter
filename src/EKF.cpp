@@ -15,6 +15,13 @@ EKF::EKF(){
     noise_ax_ = 9;
     noise_ay_ = 9;
 
+    std_lasx  = 0.3;
+    std_lasy  = 0.3;
+
+    std_radr  = 0.9;                                   // Radar measurement noise standard deviation radius in m
+    std_radphi= 0.3;                                // radar measurement noise standard deviation angle in rad
+    std_radrd = 0.9;                                  // radar measurement noise standard deviation radius change in m/s
+
     R_laser   = Eigen::MatrixXd::Zero(2, 2);
     R_radar   = Eigen::MatrixXd::Zero(3, 3);
     H_laser   = Eigen::MatrixXd::Zero(2, nx_);
@@ -31,8 +38,12 @@ void EKF::initialize(const Sensor& new_input){
        0, 0, 0, 1;
 
     P_.diagonal()      << 1, 1, 1, 1;
-    R_laser.diagonal() << 0.0225, 0.0225;
-    R_radar.diagonal() << 0.09, 0.0009, 0.09;
+    R_laser.diagonal() << std_lasx*std_lasx,
+                          std_lasy*std_lasy;
+
+    R_radar.diagonal() << std_radr*std_radr,
+                          std_radphi*std_radphi,
+                          std_radrd*std_radrd;
     H_laser << 1, 0, 0, 0,
                0, 1, 0 ,0;
 
@@ -40,7 +51,7 @@ void EKF::initialize(const Sensor& new_input){
         case SensorType::RADAR:{
             double rho   = new_input.data_(0);
             double theta = new_input.data_(1);
-            x_ << rho*sin(theta), rho*cos(theta)*-1, 0, 0;
+            x_ << rho*sin(theta), rho*cos(theta), 0, 0;
             break;
         }
         case SensorType::LASER:{
@@ -80,6 +91,7 @@ void EKF::Update(const Sensor& new_input){
             double rho_dot = 0.0;
 
             if (fabs(rho) > 0.0001) rho_dot = (x_(0)*x_(2) + x_(1)*x_(3))/rho; // rhod = (px*vx + py*vy)/rho
+
             // Normalize angle
             while (z_pred(1) < -M_PI) z_pred(1) += 2 * M_PI;
             while (z_pred(1) > M_PI)  z_pred(1) -= 2 * M_PI;
@@ -119,6 +131,11 @@ void EKF::Update(const Sensor& new_input){
     Eigen::MatrixXd I = Eigen::MatrixXd::Identity(nx_, nx_);
     x_ = x_ + K*z_diff;
     P_ = (I - K*H)*P_;
+
+    /*****************************************************************************
+     *  Update Normalized Innovation Squared error
+     ****************************************************************************/
+    nis_ = z_diff.transpose()*S*z_diff;
 
 }
 
@@ -176,12 +193,6 @@ void EKF::calculateJacobian(){
             d_theta_posx,    d_theta_posy,    0,     0,
             d_rho_rate_posx, d_rho_rate_posy, d_rho_rate_velx, d_rho_rate_vely;
 }
-
-
-double EKF::getNIS() const{
-    return 0.0;
-}
-
 
 EKF::~EKF() {
 
