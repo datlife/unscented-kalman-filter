@@ -167,7 +167,7 @@ void FuseSensors (ofstream &out_file_ ,
     EKF ekf;
     UKF ukf;
     //SensorFusion filter(&ekf);
-    SensorFusion filter(&ekf);
+    SensorFusion filter(&ukf);
     double prev_time = 0.0;
     for (size_t k = 0; k < measurement_pack_list.size(); ++k) {
 
