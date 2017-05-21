@@ -7,6 +7,14 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
 
+/**
+ * Helper function to Normalize Angle from [-2 * PI, 2 * PI]
+ */
+void UKF::normalize_angle(double &angle){
+    while (angle > M_PI) angle -=2.*M_PI;
+    while (angle <-M_PI) angle +=2.*M_PI;
+}
+
 
 /**
  * Unscented Kalman Filter Constructor
@@ -21,16 +29,15 @@ UKF::UKF() {
     P_          = MatrixXd::Zero(n_x_,   n_x_);          // initial covariance matrix
     Q_          = MatrixXd::Zero(2, 2);                  // Simplified because of using Augmented State
 
+    std_a_      = 6;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
+    std_yawdd_  = 2*M_PI;                                // Process noise standard deviation yaw acceleration in rad/s^2
 
-    std_a_      = 3;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
-    std_yawdd_  = 0.2;                                   // Process noise standard deviation yaw acceleration in rad/s^2
+    std_lasx    = 0.8;
+    std_lasy    = 0.8;
 
-    std_lasx    = 0.3;
-    std_lasy    = 0.1;
-
-    std_radr    = 0.3;                 ///* Radar measurement noise standard deviation radius in m
-    std_radphi  = 0.0175;                ///* radar measurement noise standard deviation angle in rad
-    std_radrd   = 0.01;                 ///* radar measurement noise standard deviation radius change in m/s
+    std_radr    = 0.35;                                   // Radar measurement noise standard deviation radius in m
+    std_radphi  = 0.017;                                // radar measurement noise standard deviation angle in rad
+    std_radrd   = 0.02;                                  // radar measurement noise standard deviation radius change in m/s
 
     R_lidar     = MatrixXd::Zero(2, 2);
     R_radar     = MatrixXd::Zero(3, 3);
@@ -43,14 +50,28 @@ UKF::UKF() {
  */
 void UKF::initialize(const Sensor &new_input) {
 
+    int a = 0.5;
+    // Initialize Process Covariance and Noise Matrices
+    P_.diagonal()      << 0.1, 0.1, 0.1, 0.01, 0.01;
+    Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
+    R_lidar.diagonal() << pow(std_lasx, 2), pow(std_lasy, 2);
+    R_radar.diagonal() << pow(std_radr, 2), pow(std_radphi, 2), pow(std_radrd, 2);
+
+    // Weight for Sigma Points Calculation
+    weights_(0) = lambda_/(lambda_ + n_aug_);
+
+    for (int i = 1; i< 2*n_aug_ + 1; i++) {
+        weights_(i) = 0.5/(n_aug_ + lambda_);
+    }
+
+    // Initialize the First State
     VectorXd measurement = new_input.data_;
     switch(new_input.sensor_type_)
     {
         case SensorType::RADAR: {
             double rho = measurement(0);
             double phi = measurement(1);
-            double rho_rate = measurement(2);
-            x_ << rho * cos(phi), rho * sin(phi), 0, rho_rate, 0;
+            x_ << rho * cos(phi), rho * sin(phi), 0, 0, 0;
         }
             break;
         case SensorType::LASER:
@@ -58,17 +79,6 @@ void UKF::initialize(const Sensor &new_input) {
             break;
     }
 
-    P_.diagonal()      << 0.1, 0.1, 0.1, 0.1, 0.1;
-    Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
-    R_lidar.diagonal() << pow(std_lasx, 2), pow(std_lasy, 2);
-    R_radar.diagonal() << pow(std_radr, 2), pow(std_radphi, 2), pow(std_radrd, 2);
-
-    // Init Weight
-    weights_(0) = lambda_/(lambda_ + n_aug_);
-
-    for (int i = 1; i< 2*n_aug_ + 1; i++) {
-        weights_(i) = 0.5/(n_aug_ + lambda_);
-    }
 }
 void UKF::Predict(double delta_t){
 
@@ -96,7 +106,7 @@ void UKF::Update(const Sensor& new_input){
     SensorType type = new_input.sensor_type_;
     /**
      * *******************************************************************************
-     * Calculate Measurement Predicted Mean & Covariance
+     * Transform to Measurement Predicted Mean & Covariance
      * *******************************************************************************
      */
     VectorXd z_mean = ConvertToMeasurement(x_, new_input.sensor_type_);
@@ -105,9 +115,7 @@ void UKF::Update(const Sensor& new_input){
     for( int i = 0; i < Xsig_pred_.cols(); i++){
         Z_sigma_pred.col(i) = ConvertToMeasurement(Xsig_pred_.col(i), new_input.sensor_type_);
     }
-    std::cout <<"\n****Mean**** \n" <<z_mean
-              <<"\n***Measurement**\n" << new_input.data_
-              <<"\n***State***\n" <<x_<<"\n";
+
     /**
      * *****************************************************************************
      * Calculate Cross-Translation Matrix (upper top of Kalman Gain)
@@ -129,7 +137,7 @@ void UKF::Update(const Sensor& new_input){
         S  += weights_(i) * z_diff * z_diff.transpose();
         Tc += weights_(i) * x_diff * z_diff.transpose();
     }
-    S = S + ((type==SensorType::RADAR)?R_radar : R_lidar);     // Add sensor noise
+    S = S + ((type==SensorType::RADAR)? R_radar : R_lidar);     // Add sensor noise
 
     /**
      * *****************************************************************************
@@ -143,26 +151,26 @@ void UKF::Update(const Sensor& new_input){
      * Update State and Covariance Matrix
      * *****************************************************************************
      */
+    VectorXd measurement = new_input.data_;
+
     // Residual
-    VectorXd z_diff = new_input.data_ - z_mean;
-    if (new_input.sensor_type_ == SensorType::RADAR)
+    VectorXd z_diff = measurement - z_mean;
+    if (new_input.sensor_type_ == SensorType::RADAR){
         normalize_angle(z_diff(1));
+    }
 
     x_ = x_ + K * z_diff;
     P_ = P_ - K*S*K.transpose();
 
     normalize_angle(x_(3));
-    std::cout << ((new_input.sensor_type_ == SensorType::LASER)?"LIDAR" : "RADAR");
-}
 
 
-/**
- * Helper function to Normalize Angle from [-2 * PI, 2 * PI]
- */
-void UKF::normalize_angle(double &angle){
-    while (angle > M_PI) angle -=2.*M_PI;
-    while (angle <-M_PI) angle +=2.*M_PI;
+    /*****************************************************************************
+    *  Update Normalized Innovation Squared error
+    ****************************************************************************/
+    nis_ = z_diff.transpose()*S*z_diff;
 }
+
 
 /**
  * ----------------------------------------------------------------------------------------------------
@@ -209,10 +217,13 @@ MatrixXd UKF::GenerateSigmaPoints(){
  * */
 VectorXd UKF::PredictSigmaPoint(const VectorXd &sigma_pt, const double &delta_t){
 
+    // Predicted Sigma Point
+    VectorXd x_sigma_pts = VectorXd::Zero(n_x_);
+
     // Generate curr state values for read-ability
-    double dt2 = delta_t*delta_t;
     double px, py, vel, yaw, yawd, nu_a, nu_yawdd;
     double px_rate, py_rate;
+    double dt2 = delta_t*delta_t;
 
     std::tie(px, py, vel, yaw, yawd, nu_a, nu_yawdd) = std::make_tuple(sigma_pt(0), sigma_pt(1), sigma_pt(2),
                                                                        sigma_pt(3), sigma_pt(4), sigma_pt(5), sigma_pt(6));
@@ -228,8 +239,6 @@ VectorXd UKF::PredictSigmaPoint(const VectorXd &sigma_pt, const double &delta_t)
         px_rate = vel*cos(yaw)*delta_t;
         py_rate = vel*sin(yaw)*delta_t;
     }
-
-    VectorXd x_sigma_pts(n_x_);
 
     //CRTV Model
     x_sigma_pts << \
@@ -254,22 +263,28 @@ void  UKF::CalculateMeanAndCovariance(){
     VectorXd x_mean = VectorXd::Zero(n_x_);
     MatrixXd P      = MatrixXd::Zero(n_x_, n_x_);
 
-    // Calculate Mean State
+    /******************************************
+     * Calculate Mean State
+     ******************************************/
     for(int i = 0; i < Xsig_pred_.cols(); i++){
         x_mean += weights_(i)*Xsig_pred_.col(i);
+        normalize_angle(x_mean(3));
     }
-    normalize_angle(x_mean(3));
-
-    // Calculate Process Covariance Matrix
+    /******************************************
+     * Calculate Process Covariance Matrix
+     ******************************************/
     for(int i = 0; i < Xsig_pred_.cols(); i++){
-        MatrixXd x_diff = (Xsig_pred_.col(i) - x_mean);
+        MatrixXd x_diff = Xsig_pred_.col(i) - Xsig_pred_.col(0); // <--- using this over x_mean makes code more robust.
         normalize_angle(x_diff(3));
         P += weights_(i)*x_diff*x_diff.transpose();
     }
-
-    // Update Predicted Mean & Covariance
+    /******************************************
+     * Update Predicted Mean & Covariance
+     ******************************************/
     x_ = x_mean;
     P_ = P;
+    std::cout << "\nPredicted State: \n" << x_
+              << "\nProcess Covariance Matrix P: \n" << P_ <<std::endl;
 }
 
 
@@ -294,6 +309,7 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
                 break;
 
             case SensorType::RADAR:
+                if (fabs(px) < 0.001) px = 0.001;
                 double rho      = sqrt(px*px + py*py);
                 double phi      = atan2(py, px);
                 double rho_dot  =  0.0;
@@ -306,10 +322,14 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
                 result << rho, phi, rho_dot;
                 break;
         }
-        return result;
+    return result;
 }
 
 
-
+/**
+ * Destructor
+ */
 UKF::~UKF() {}
-KalmanFilter::~KalmanFilter() {}
+KalmanFilterBase::~KalmanFilterBase(){
+
+}

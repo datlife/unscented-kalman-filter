@@ -5,25 +5,23 @@
 #ifndef UNSCENTEDKF_SENSORFUSION_H
 #define UNSCENTEDKF_SENSORFUSION_H
 
-#include "KalmanFilter.h"
+#include "KalmanFilterBase.h"
 #include "Sensor.h"
 
 class SensorFusion{
 
     private:
-        KalmanFilter                *filter_;
-        Eigen::VectorXd             z_pred_;
-        Eigen::MatrixXd             S_;
-        double                      prev_time_step_;
+        KalmanFilterBase                *filter_;
+        double                      nis_;
         bool                        initialized_;
         long long                   prev_time_us_;    ///* time when the state is true, in us
 
 public:
-        SensorFusion(KalmanFilter*);
+        SensorFusion(KalmanFilterBase*);
         void            Process(const Sensor&);
         Eigen::VectorXd getState() const { return filter_->getState();}
 
-        double          calculate_NIS(const Sensor &);
+        double          calculate_NIS() const;
         Eigen::VectorXd calculate_RMSE(const std::vector<Eigen::VectorXd> &estimations, const std::vector<Eigen::VectorXd> &ground_truth);
 
 };

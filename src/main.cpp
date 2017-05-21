@@ -3,12 +3,13 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <stdlib.h>
 
 #include "Dense"
 #include "Sensor.h"
 #include "SensorFusion.h"
+#include "EKF.h"
 #include "UKF.h"
+
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -18,13 +19,16 @@ using std::vector;
 typedef Sensor GroundTruthPackage;
 typedef Sensor MeasurementPackage;
 
+
+
 //============================ Function Prototypes ============================================
-void validate_arguments(int argc, char **argv);
-void check_files       (ifstream &, ofstream& out_file);
-void read_input        (ifstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
-void FuseSensors (ofstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
-void write_output      (ofstream &, const UKF &, const MeasurementPackage &, const GroundTruthPackage &);
-void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian);
+void            validate_arguments(int argc, char **argv);
+void            check_files       (ifstream &, ofstream& out_file);
+void            read_input        (ifstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
+void            FuseSensors (ofstream &, vector<MeasurementPackage> &, vector<GroundTruthPackage> &);
+void            write_output_header(ofstream &out_file_);
+void            write_output      (ofstream &, const SensorFusion &, const MeasurementPackage &, const GroundTruthPackage &);
+Eigen::VectorXd convert_ukf_to_cartesian(const VectorXd &state);
 
 // Input format :
 // ------------------------------------------------------------------------------------------------------------------------
@@ -41,11 +45,12 @@ void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian)
 int main(int argc, char* argv[]) {
     // Validate arguments - For this project, it requires an input path and output path respectively.
     validate_arguments(argc, argv);
+
     ifstream in_file_(argv[1], ifstream::in);              // Create input/output stream
     ofstream out_file_(argv[2], ofstream::out);
     check_files(in_file_, out_file_);                      // Validate input/output file
 
-    vector<MeasurementPackage> measurement_pack_list;     // Used to store data from input file
+    vector<MeasurementPackage> measurement_pack_list;
     vector<GroundTruthPackage> gt_pack_list;
     read_input(in_file_, measurement_pack_list, gt_pack_list);    // Input is (Laser/Radar Measurement)
 
@@ -151,106 +156,127 @@ void FuseSensors (ofstream &out_file_ ,
                         vector<MeasurementPackage> & measurement_pack_list,
                         vector<GroundTruthPackage> &gt_pack_list){
 
-    // used to compute the RMSE later
-    vector<VectorXd> estimations;
-    vector<VectorXd> ground_truth;
+    // used to compute the RMSE
+    vector<VectorXd> estimations, ground_truth;
 
-    // column names for output file
-    out_file_ << "time_stamp" << "\t"  << "px_state" << "\t" << "py_state" << "\t" << "v_state" << "\t"  << "yaw_angle_state" << "\t" << "yaw_rate_state" << "\t"
-              << "sensor_type" << "\t" << "NIS" << "\t";
+   // Disabled so output could follow Mercedes Visualization Format
+   //  write_output_header(out_file_);
 
-    out_file_ << "px_measured" << "\t" << "py_measured" << "\t"
-              << "px_ground_truth" << "\t" << "py_ground_truth" << "\t"
-              << "vx_ground_truth" << "\t" << "vy_ground_truth" << "\n";
-
-    // start filtering from the second frame (the speed is unknown in the first frame)
-    size_t number_of_measurements = measurement_pack_list.size();
-
-    // Convert ukf x vector to cartesian to compare to ground truth
-    VectorXd ukf_x_cartesian_(6);
-    // Create a UKF instance
+    // Create Kalman Filters
+    EKF ekf;
     UKF ukf;
+    // SensorFusion filter(&a);
     SensorFusion filter(&ukf);
-    for (size_t k = 0; k < number_of_measurements; ++k) {
+
+    for (size_t k = 0; k < measurement_pack_list.size(); ++k) {
 
         // Call the UKF-based fusion
         filter.Process(measurement_pack_list[k]);
 
         // Estimated state is converted to Cartesian Space before writing to output
-        convert_ukf_to_cartesian(filter.getState(),ukf_x_cartesian_);
-        estimations.push_back(ukf_x_cartesian_);
+        VectorXd x_cartesian_ =  convert_ukf_to_cartesian(filter.getState());
 
-        // save ground truth value
+        // save Estimation &  ground truth value
+        estimations.push_back(x_cartesian_);
         ground_truth.push_back(gt_pack_list[k].data_);
 
-        // Save to 'output.txt'
-        write_output(out_file_, ukf, measurement_pack_list[k], gt_pack_list[k]);
+        // Save to 'output.
+        write_output(out_file_, filter, measurement_pack_list[k], gt_pack_list[k]);
 
+
+        std::cout << ((measurement_pack_list[k].sensor_type_ == SensorType::LASER)?"LIDAR" : "RADAR");
         std::cout<< "\n------------------------------------------\n"
                  <<"STEP "<< k
-                 << "\n\nState X _\n"  <<  ukf_x_cartesian_<<"\n"
+                 <<"\nNIS: " <<filter.calculate_NIS()<<"\n"
+                 << "\n\nState X _\n"  <<  x_cartesian_<<"\n"
                  << "\nGround Truth\n" << gt_pack_list[k].data_ <<"\n\n";
 
+
     }
-
     std::cout << "RMSE" << endl << filter.calculate_RMSE(estimations, ground_truth) << std::endl;
-    // @TODO: Compute NIS
 }
+void write_output_header(ofstream &out_file_){
+    // column names for output file
+    out_file_ << "time_stamp" << "\t"
+              << "px_state" << "\t"
+              << "py_state" << "\t"
+              << "v_state" << "\t"
+              << "yaw_angle_state" << "\t"
+              << "yaw_rate_state" << "\t"
+              << "sensor_type" << "\t"
+              << "NIS" << "\t";
 
+    out_file_ << "px_measured" << "\t"
+              << "py_measured" << "\t"
+
+              << "px_ground_truth" << "\t"
+              << "py_ground_truth" << "\t"
+              << "vx_ground_truth" << "\t"
+              << "vy_ground_truth" << "\n";
+}
 void write_output      (ofstream &out_file_,
-                        const UKF &ukf,
+                        const SensorFusion &f,
                         const MeasurementPackage &measurement,
                         const GroundTruthPackage &ground_truth){
+    VectorXd x = f.getState();
     // timestamp
-    out_file_ << measurement.timestamp_ << "\t"; // pos1 - est
-    out_file_ << ukf.getState(0) << "\t"; // pos1 - est
-    out_file_ << ukf.getState(1) << "\t"; // pos2 - est
-    out_file_ << ukf.getState(2) << "\t"; // vel_abs -est
-    out_file_ << ukf.getState(3) << "\t"; // yaw_angle -est
-    out_file_ << ukf.getState(4) << "\t"; // yaw_rate -est
+    out_file_ << measurement.timestamp_ << "\t"; //
 
-    // output LiDar and radar specific data
+    // Output state estimation vector
+    for(int i = 0; i < x.rows();i++)
+        out_file_ << x(i) << "\t"; //
+
+    double nis_laser = 0., nis_radar = 0.;
     if (measurement.sensor_type_ == SensorType::LASER) {
         // sensor type
-        out_file_ << "LiDar" << "\t";
+        // out_file_ << "LiDar" << "\t";
+        // out_file_ << f.calculate_NIS() << "\t";
 
-        // NIS value
-        //out_file_ << ukf.getNIS(SensorType::LASER) << "\t";
-
-        // output the LiDar sensor measurement px and py
+        // Sensor measurement px and py
         out_file_ << measurement.data_(0) << "\t";
         out_file_ << measurement.data_(1) << "\t";
 
+        // Follow ipython format
+        nis_laser = f.calculate_NIS();
     }
     else if (measurement.sensor_type_ == SensorType::RADAR) {
         // sensor type
-        out_file_ << "Radar" << "\t";
-
+        //out_file_ << "Radar" << "\t";
         // NIS value
-       // out_file_ << ukf.getNIS(SensorType::RADAR) << "\t";
-
-        // output radar measurement in cartesian coordinates
+       //out_file_ << f.calculate_NIS() << "\t";
+        // Sensor radar measurement in cartesian coordinates
         float ro   = float(measurement.data_(0));
         float phi  = float(measurement.data_(1));
+
         out_file_ << ro * cos(phi) << "\t"; // px measurement
         out_file_ << ro * sin(phi) << "\t"; // py measurement
+        nis_radar  = f.calculate_NIS();
     }
-
     // Output the ground truth
-    out_file_ << ground_truth.data_(0) << "\t";
-    out_file_ << ground_truth.data_(1) << "\t";
-    out_file_ << ground_truth.data_(2) << "\t";
-    out_file_ << ground_truth.data_(3) << "\n";
+    float vx_gt = ground_truth.data_(2);
+    float vy_gt = ground_truth.data_(3);
+    float v     = sqrt(vx_gt*vx_gt + vy_gt*vy_gt);
+
+    out_file_ << ground_truth.data_(0) << "\t"; //px
+    out_file_ << ground_truth.data_(1) << "\t"; //py
+    out_file_  << v << "\t";                     //v
+    out_file_ << ground_truth.data_(4) << "\t"; //yaw
+    out_file_ << ground_truth.data_(5) << "\t"; //yaw_rate
+    out_file_ << vx_gt  << "\t"                 //vx_gt
+              << vy_gt <<"\t"                   //vy_gt
+              << nis_laser <<"\t"               //nis_laser
+              << nis_radar <<"\n";              //nis_radar
+
 }
 
-void convert_ukf_to_cartesian(const VectorXd &state, VectorXd &ukf_in_cartesian){
-    float x_estimate_  = state(0); //px
-    float y_estimate_  = state(1); //py
-    float vx_estimate_ = state(2) * cos(state(3)); //vx = v * cos(yaw)
-    float vy_estimate_ = state(2) * sin(state(3)); //vy = v * sin(yaw)
-    float yaw          = state(3);
-    float yaw_rate     = state(4);
+Eigen::VectorXd convert_ukf_to_cartesian(const VectorXd &state){
 
-    ukf_in_cartesian << x_estimate_, y_estimate_, vx_estimate_, vy_estimate_, yaw, yaw_rate;
+    float px_estimate_   = state(0); //px
+    float py_estimate_   = state(1); //py
+    float vx_estimate_   = state(2) * cos(state(3)); //vx = v * cos(yaw)
+    float vy_estimate_   = state(2) * sin(state(3)); //vy = v * sin(yaw)
 
+    VectorXd x_ = VectorXd::Zero(4);
+    x_ << px_estimate_, py_estimate_, vx_estimate_, vy_estimate_;
+    return x_;
 }
