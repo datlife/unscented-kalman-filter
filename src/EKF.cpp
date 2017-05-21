@@ -13,7 +13,7 @@ EKF::EKF(){
     Q_        = Eigen::MatrixXd::Zero(nx_, nx_);
 
     noise_ax_ = 9;
-    noise_ax_ = 9;
+    noise_ay_ = 9;
 
     R_laser   = Eigen::MatrixXd::Zero(2, 2);
     R_radar   = Eigen::MatrixXd::Zero(3, 3);

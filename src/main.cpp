@@ -29,6 +29,7 @@ void            FuseSensors (ofstream &, vector<MeasurementPackage> &, vector<Gr
 void            write_output_header(ofstream &out_file_);
 void            write_output      (ofstream &, const SensorFusion &, const MeasurementPackage &, const GroundTruthPackage &);
 Eigen::VectorXd convert_ukf_to_cartesian(const VectorXd &state);
+Eigen::VectorXd convert_sensor_to_cartesian(const Sensor &sensor);
 
 // Input format :
 // ------------------------------------------------------------------------------------------------------------------------
@@ -163,11 +164,11 @@ void FuseSensors (ofstream &out_file_ ,
    //  write_output_header(out_file_);
 
     // Create Kalman Filters
-    EKF ekf;
+    //EKF ekf;
     UKF ukf;
-    // SensorFusion filter(&a);
+    //SensorFusion filter(&ekf);
     SensorFusion filter(&ukf);
-
+    double prev_time = 0.0;
     for (size_t k = 0; k < measurement_pack_list.size(); ++k) {
 
         // Call the UKF-based fusion
@@ -187,11 +188,14 @@ void FuseSensors (ofstream &out_file_ ,
         std::cout << ((measurement_pack_list[k].sensor_type_ == SensorType::LASER)?"LIDAR" : "RADAR");
         std::cout<< "\n------------------------------------------\n"
                  <<"STEP "<< k
-                 <<"\nNIS: " <<filter.calculate_NIS()<<"\n"
-                 << "\n\nState X _\n"  <<  x_cartesian_<<"\n"
+                 <<"\nNIS: " <<filter.calculate_NIS()
+                 <<"\nDelta T: "<< (measurement_pack_list[k].timestamp_ - prev_time)/ 1000000.0<<" sec\n"
+                 <<"\nMeasurement in Cartesian:\n"<<convert_sensor_to_cartesian(measurement_pack_list[k])<<"\n"
+                 <<"\nState X: \n"<<filter.getState()<<"\n"
+                 << "\n\nState X in Cartesian\n"  <<  x_cartesian_<<"\n"
                  << "\nGround Truth\n" << gt_pack_list[k].data_ <<"\n\n";
 
-
+        prev_time = measurement_pack_list[k].timestamp_;
     }
     std::cout << "RMSE" << endl << filter.calculate_RMSE(estimations, ground_truth) << std::endl;
 }
@@ -278,5 +282,24 @@ Eigen::VectorXd convert_ukf_to_cartesian(const VectorXd &state){
 
     VectorXd x_ = VectorXd::Zero(4);
     x_ << px_estimate_, py_estimate_, vx_estimate_, vy_estimate_;
+    return x_;
+}
+
+Eigen::VectorXd convert_sensor_to_cartesian(const Sensor &sensor){
+    // Initialize the First State
+    VectorXd x_ = VectorXd::Zero(4);
+    VectorXd measurement = sensor.data_;
+    switch(sensor.sensor_type_)
+    {
+        case SensorType::RADAR: {
+            double rho = measurement(0);
+            double phi = measurement(1);
+            x_ << rho * cos(phi), rho * sin(phi), 0 , 0;
+        }
+            break;
+        case SensorType::LASER:
+            x_ << measurement(0), measurement(1), 0, 0;
+            break;
+    }
     return x_;
 }

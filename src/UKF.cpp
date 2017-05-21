@@ -32,12 +32,12 @@ UKF::UKF() {
     std_a_      = 6;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
     std_yawdd_  = 2*M_PI;                                // Process noise standard deviation yaw acceleration in rad/s^2
 
-    std_lasx    = 0.8;
-    std_lasy    = 0.8;
+    std_lasx    = 0.3;
+    std_lasy    = 0.3;
 
-    std_radr    = 0.35;                                   // Radar measurement noise standard deviation radius in m
-    std_radphi  = 0.017;                                // radar measurement noise standard deviation angle in rad
-    std_radrd   = 0.02;                                  // radar measurement noise standard deviation radius change in m/s
+    std_radr    = 0.30;                                   // Radar measurement noise standard deviation radius in m
+    std_radphi  = 0.0175;                                // radar measurement noise standard deviation angle in rad
+    std_radrd   = 0.01;                                  // radar measurement noise standard deviation radius change in m/s
 
     R_lidar     = MatrixXd::Zero(2, 2);
     R_radar     = MatrixXd::Zero(3, 3);
@@ -50,7 +50,6 @@ UKF::UKF() {
  */
 void UKF::initialize(const Sensor &new_input) {
 
-    int a = 0.5;
     // Initialize Process Covariance and Noise Matrices
     P_.diagonal()      << 0.1, 0.1, 0.1, 0.01, 0.01;
     Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
@@ -97,7 +96,11 @@ void UKF::Predict(double delta_t){
     /*****************************************************************************
     *  3. Predict State Mean and Covariance
     ****************************************************************************/
+    MatrixXd P_rev = P_;
     CalculateMeanAndCovariance();
+    //    std::cout << "\nPredicted State: \n" << x_
+//              << "\nProcess Covariance Matrix P: \n" << P_ <<std::endl;
+
 }
 
 void UKF::Update(const Sensor& new_input){
@@ -169,6 +172,10 @@ void UKF::Update(const Sensor& new_input){
     *  Update Normalized Innovation Squared error
     ****************************************************************************/
     nis_ = z_diff.transpose()*S*z_diff;
+    if (nis_ > 30){
+        std::cout <<"\n*****HIGH NIS ALERT***** "<<nis_ <<"\n";
+    }
+    std::cout<<"\nZ_difference: \n" << z_diff <<"\n";
 }
 
 
@@ -283,8 +290,7 @@ void  UKF::CalculateMeanAndCovariance(){
      ******************************************/
     x_ = x_mean;
     P_ = P;
-    std::cout << "\nPredicted State: \n" << x_
-              << "\nProcess Covariance Matrix P: \n" << P_ <<std::endl;
+
 }
 
 
@@ -314,7 +320,7 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
                 double phi      = atan2(py, px);
                 double rho_dot  =  0.0;
 
-                if (rho >= 0.001)
+                if (fabs(rho) > 0.001)
                     rho_dot = (px*(v*cos(yaw)) + py*(v*sin(yaw)))/rho;
 
                 normalize_angle(phi);
