@@ -23,6 +23,7 @@ class KalmanFilterBase{
 
         virtual ~KalmanFilterBase() = 0;
     protected:
+
         /**
          * --------------------------------------------
          * State Vector - Depended on Driving Model
@@ -47,13 +48,6 @@ class KalmanFilterBase{
          * (P_new = P_old + Q)
          */
         Eigen::MatrixXd     Q_;
-
-        /**
-         * --------------------------------------------
-         *  Sensor Noise Covariance Matrix
-         *  -------------------------------------------
-         */
-        Eigen::MatrixXd     R_;
 
 
 };

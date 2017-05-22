@@ -4,3 +4,6 @@
 
 #include "KalmanFilterBase.h"
 
+KalmanFilterBase::~KalmanFilterBase(){
+
+}

@@ -23,19 +23,19 @@ UKF::UKF() {
     lambda_     = 3 - n_aug_;                            // Scaling factor for sigma points
 
     // State
-    x_          = VectorXd::Zero(n_x_);                  // initial state vector
-    P_          = MatrixXd::Zero(n_x_,   n_x_);          // initial covariance matrix
+    x_          = VectorXd::Zero(n_x_);                  // Initial state vector
+    P_          = MatrixXd::Zero(n_x_,   n_x_);          // Initial covariance matrix
     Q_          = MatrixXd::Zero(2, 2);                  // Simplified because of using Augmented State
 
-    std_a_      = 9;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
-    std_yawdd_  = 2*M_PI;                                // Process noise standard deviation yaw acceleration in rad/s^2
+    std_a_      = 2;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
+    std_yawdd_  = 0.5;                                   // Process noise standard deviation yaw acceleration in rad/s^2
 
     std_lasx    = 0.15;
     std_lasy    = 0.15;
 
     std_radr    = 0.3;                                   // Radar measurement noise standard deviation radius in m
-    std_radphi  = 0.03;                                // radar measurement noise standard deviation angle in rad
-    std_radrd   = 0.01;                                  // radar measurement noise standard deviation radius change in m/s
+    std_radphi  = 0.03;                                  // Radar measurement noise standard deviation angle in rad
+    std_radrd   = 0.3;                                   // Radar measurement noise standard deviation radius change in m/s
 
     R_lidar     = MatrixXd::Zero(2, 2);
     R_radar     = MatrixXd::Zero(3, 3);
@@ -49,17 +49,15 @@ UKF::UKF() {
 void UKF::initialize(const Sensor &new_input) {
 
     // Initialize Process Covariance and Noise Matrices
-    P_.diagonal()      << 0.01, 0.01, 0.01, 0.001, 0.01;
+    P_.diagonal()      << 1, 1, 1, 0.001, 0.001;
     Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
     R_lidar.diagonal() << pow(std_lasx, 2), pow(std_lasy, 2);
     R_radar.diagonal() << pow(std_radr, 2), pow(std_radphi, 2), pow(std_radrd, 2);
 
     // Weight for Sigma Points Calculation
+    weights_.fill(0.5/(n_aug_ + lambda_));
     weights_(0) = lambda_/(lambda_ + n_aug_);
 
-    for (int i = 1; i< 2*n_aug_ + 1; i++) {
-        weights_(i) = 0.5/(n_aug_ + lambda_);
-    }
 
     // Initialize the First State
     VectorXd measurement = new_input.data_;
@@ -98,39 +96,6 @@ void UKF::Predict(double delta_t){
 
 }
 
-void UKF::linear_update(const Sensor &new_input, const VectorXd z_mean){
-
-    int size = new_input.data_.rows();
-    /**
-   * *******************************************************************************
-   * Calculate Kalman Gain
-   * *******************************************************************************
-   */
-    VectorXd z_diff = new_input.data_ - z_mean;
-    MatrixXd S = MatrixXd::Zero(size, size);
-    MatrixXd H = MatrixXd::Zero(size, n_x_);
-    H << 1, 0, 0, 0, 0,
-         0, 1, 0, 0, 0;
-
-    S = H*P_*H.transpose() + R_lidar;
-
-
-    Eigen::MatrixXd K = (P_*H.transpose())*S.inverse();
-
-    /**
-    * *******************************************************************************
-    * Update State
-    * *******************************************************************************
-    */
-    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n_x_, n_x_);
-    x_ = x_ + K*z_diff;
-    P_ = (I - K*H)*P_;
-
-    /*****************************************************************************
-     *  Update Normalized Innovation Squared error
-     ****************************************************************************/
-    nis_ = z_diff.transpose()*S.inverse()*z_diff;
-}
 void UKF::Update(const Sensor& new_input){
 
     int size        = new_input.data_.rows();
@@ -207,14 +172,50 @@ void UKF::Update(const Sensor& new_input){
     nis_ = z_diff.transpose()*S.inverse()*z_diff;
 }
 
+/**
+ * Perform linear update. save some loops!
+ * @param new_input
+ * @param z_mean
+ */
+void UKF::linear_update(const Sensor &new_input, const VectorXd z_mean){
 
+    int size = new_input.data_.rows();
+    /**
+   * *******************************************************************************
+   * Calculate Kalman Gain
+   * *******************************************************************************
+   */
+    VectorXd z_diff = new_input.data_ - z_mean;
+    MatrixXd S = MatrixXd::Zero(size, size);
+    MatrixXd H = MatrixXd::Zero(size, n_x_);
+    H << 1, 0, 0, 0, 0,
+            0, 1, 0, 0, 0;
+
+    S = H*P_*H.transpose() + R_lidar;
+
+
+    Eigen::MatrixXd K = (P_*H.transpose())*S.inverse();
+
+    /**
+    * *******************************************************************************
+    * Update State
+    * *******************************************************************************
+    */
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n_x_, n_x_);
+    x_ = x_ + K*z_diff;
+    P_ = (I - K*H)*P_;
+
+    /*****************************************************************************
+     *  Update Normalized Innovation Squared error
+     ****************************************************************************/
+    nis_ = z_diff.transpose()*S.inverse()*z_diff;
+}
 /**
  * ----------------------------------------------------------------------------------------------------
  * GenerateSigmaPoints()
  * ---------------------------------------------------------------------------------------------------
  * Helper function for Prediction Step
  *      Number of sigma points = 2 * state_dimension + 1
-
  * */
 MatrixXd UKF::GenerateSigmaPoints(){
 
@@ -323,7 +324,6 @@ void  UKF::CalculateMeanAndCovariance(){
 
 }
 
-
 /**
  * Convert Sigma Points To Measurement Space
  * @param new_input
@@ -338,8 +338,7 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
     const double yawd = sigma_pt(4);
 
     VectorXd  result = (type==SensorType::LASER) ? VectorXd::Zero(2) : VectorXd::Zero(3);
-    switch(type)
-        {
+    switch(type) {
             case SensorType::LASER:
                 result << px, py;
                 break;
@@ -363,6 +362,3 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
  * Destructor
  */
 UKF::~UKF() {}
-KalmanFilterBase::~KalmanFilterBase(){
-
-}
