@@ -9,7 +9,7 @@
  * @param new_input
  */
 SensorFusion::SensorFusion(KalmanFilterBase* filter): filter_(filter){
-
+    initialized_ = false;
 }
 
 /***
@@ -34,10 +34,6 @@ void SensorFusion::Process(const Sensor& new_input) {
         /*****************************************************************************
         *  Prediction
         ****************************************************************************/
-        while(delta_t > 0.05){
-           filter_->Predict(delta_t);
-            delta_t -= 0.05;
-        }
         filter_->Predict(delta_t);
 
         /*****************************************************************************

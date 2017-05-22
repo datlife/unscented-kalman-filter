@@ -164,11 +164,13 @@ void FuseSensors (ofstream &out_file_ ,
    //  write_output_header(out_file_);
 
     // Create Kalman Filters
-    EKF ekf;
-    UKF ukf;
+     EKF ekf;
     //SensorFusion filter(&ekf);
+
+    UKF ukf;
     SensorFusion filter(&ukf);
-    double prev_time = 0.0;
+
+    double prev_time = measurement_pack_list[0].timestamp_;
     for (size_t k = 0; k < measurement_pack_list.size(); ++k) {
 
         // Call the UKF-based fusion

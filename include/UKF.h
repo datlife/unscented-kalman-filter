@@ -48,8 +48,10 @@ class UKF : public KalmanFilterBase{
          * Helper Functions for Update Step
          */
         Eigen::VectorXd ConvertToMeasurement(const Eigen::VectorXd &, const SensorType &);
+        void            linear_update(const Sensor &new_input, const Eigen::VectorXd z_mean);
 
-    private:
+
+            private:
 
         int                n_x_;             ///* State dimension
         int                n_aug_;           ///* Augmented state dimension

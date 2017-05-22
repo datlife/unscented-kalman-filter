@@ -5,14 +5,16 @@
 #ifndef UNSCENTEDKF_SENSORFUSION_H
 #define UNSCENTEDKF_SENSORFUSION_H
 
+#include <vector>
 #include "KalmanFilterBase.h"
 #include "Sensor.h"
 
 class SensorFusion{
-
+/**
+ * Wrapper Object that allows to use different types of kalman filter
+ */
     private:
         KalmanFilterBase                *filter_;
-        double                      nis_;
         bool                        initialized_;
         long long                   prev_time_us_;    ///* time when the state is true, in us
 

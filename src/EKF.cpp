@@ -15,17 +15,17 @@ EKF::EKF(){
     noise_ax_ = 9;
     noise_ay_ = 9;
 
-    std_lasx  = 0.3;
-    std_lasy  = 0.3;
+    std_lasx    = 0.15;
+    std_lasy    = 0.15;
 
-    std_radr  = 0.9;                                   // Radar measurement noise standard deviation radius in m
-    std_radphi= 0.3;                                // radar measurement noise standard deviation angle in rad
-    std_radrd = 0.9;                                  // radar measurement noise standard deviation radius change in m/s
+    std_radr    = 0.3;                                   // Radar measurement noise standard deviation radius in m
+    std_radphi  = 0.03;                                // radar measurement noise standard deviation angle in rad
+    std_radrd   = 0.01;                                  // radar measurement noise standard deviation radius change in m/s
 
-    R_laser   = Eigen::MatrixXd::Zero(2, 2);
-    R_radar   = Eigen::MatrixXd::Zero(3, 3);
-    H_laser   = Eigen::MatrixXd::Zero(2, nx_);
-    H_radar   = Eigen::MatrixXd::Zero(3, nx_);
+    R_laser     = Eigen::MatrixXd::Zero(2, 2);
+    R_radar     = Eigen::MatrixXd::Zero(3, 3);
+    H_laser     = Eigen::MatrixXd::Zero(2, nx_);
+    H_radar     = Eigen::MatrixXd::Zero(3, nx_);
 }
 
 void EKF::initialize(const Sensor& new_input){

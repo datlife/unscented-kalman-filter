@@ -11,10 +11,8 @@ using std::vector;
  * Helper function to Normalize Angle from [-2 * PI, 2 * PI]
  */
 void UKF::normalize_angle(double &angle){
-    while (angle > M_PI) angle -=2.*M_PI;
-    while (angle <-M_PI) angle +=2.*M_PI;
+   atan2(sin(angle), cos(angle));
 }
-
 
 /**
  * Unscented Kalman Filter Constructor
@@ -29,14 +27,14 @@ UKF::UKF() {
     P_          = MatrixXd::Zero(n_x_,   n_x_);          // initial covariance matrix
     Q_          = MatrixXd::Zero(2, 2);                  // Simplified because of using Augmented State
 
-    std_a_      = 6;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
+    std_a_      = 9;                                     // Process noise standard deviation longitudinal acceleration in m/s^2
     std_yawdd_  = 2*M_PI;                                // Process noise standard deviation yaw acceleration in rad/s^2
 
-    std_lasx    = 0.3;
-    std_lasy    = 0.3;
+    std_lasx    = 0.15;
+    std_lasy    = 0.15;
 
-    std_radr    = 0.30;                                   // Radar measurement noise standard deviation radius in m
-    std_radphi  = 0.0175;                                // radar measurement noise standard deviation angle in rad
+    std_radr    = 0.3;                                   // Radar measurement noise standard deviation radius in m
+    std_radphi  = 0.03;                                // radar measurement noise standard deviation angle in rad
     std_radrd   = 0.01;                                  // radar measurement noise standard deviation radius change in m/s
 
     R_lidar     = MatrixXd::Zero(2, 2);
@@ -51,7 +49,7 @@ UKF::UKF() {
 void UKF::initialize(const Sensor &new_input) {
 
     // Initialize Process Covariance and Noise Matrices
-    P_.diagonal()      << 0.1, 0.1, 0.1, 0.01, 0.01;
+    P_.diagonal()      << 0.01, 0.01, 0.01, 0.001, 0.01;
     Q_.diagonal()      << pow(std_a_, 2), pow(std_yawdd_, 2);
     R_lidar.diagonal() << pow(std_lasx, 2), pow(std_lasy, 2);
     R_radar.diagonal() << pow(std_radr, 2), pow(std_radphi, 2), pow(std_radrd, 2);
@@ -96,13 +94,43 @@ void UKF::Predict(double delta_t){
     /*****************************************************************************
     *  3. Predict State Mean and Covariance
     ****************************************************************************/
-    MatrixXd P_rev = P_;
     CalculateMeanAndCovariance();
-    //    std::cout << "\nPredicted State: \n" << x_
-//              << "\nProcess Covariance Matrix P: \n" << P_ <<std::endl;
 
 }
 
+void UKF::linear_update(const Sensor &new_input, const VectorXd z_mean){
+
+    int size = new_input.data_.rows();
+    /**
+   * *******************************************************************************
+   * Calculate Kalman Gain
+   * *******************************************************************************
+   */
+    VectorXd z_diff = new_input.data_ - z_mean;
+    MatrixXd S = MatrixXd::Zero(size, size);
+    MatrixXd H = MatrixXd::Zero(size, n_x_);
+    H << 1, 0, 0, 0, 0,
+         0, 1, 0, 0, 0;
+
+    S = H*P_*H.transpose() + R_lidar;
+
+
+    Eigen::MatrixXd K = (P_*H.transpose())*S.inverse();
+
+    /**
+    * *******************************************************************************
+    * Update State
+    * *******************************************************************************
+    */
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(n_x_, n_x_);
+    x_ = x_ + K*z_diff;
+    P_ = (I - K*H)*P_;
+
+    /*****************************************************************************
+     *  Update Normalized Innovation Squared error
+     ****************************************************************************/
+    nis_ = z_diff.transpose()*S.inverse()*z_diff;
+}
 void UKF::Update(const Sensor& new_input){
 
     int size        = new_input.data_.rows();
@@ -113,8 +141,13 @@ void UKF::Update(const Sensor& new_input){
      * *******************************************************************************
      */
     VectorXd z_mean = ConvertToMeasurement(x_, new_input.sensor_type_);
-    MatrixXd Z_sigma_pred(size, 2*n_aug_ + 1);
 
+    if (type == SensorType::LASER) {
+        linear_update(new_input, z_mean);       // In order to improve performance
+        return;
+    }
+
+    MatrixXd Z_sigma_pred(size, 2*n_aug_ + 1);
     for( int i = 0; i < Xsig_pred_.cols(); i++){
         Z_sigma_pred.col(i) = ConvertToMeasurement(Xsig_pred_.col(i), new_input.sensor_type_);
     }
@@ -171,11 +204,7 @@ void UKF::Update(const Sensor& new_input){
     /*****************************************************************************
     *  Update Normalized Innovation Squared error
     ****************************************************************************/
-    nis_ = z_diff.transpose()*S*z_diff;
-    if (nis_ > 30){
-        std::cout <<"\n*****HIGH NIS ALERT***** "<<nis_ <<"\n";
-    }
-    std::cout<<"\nZ_difference: \n" << z_diff <<"\n";
+    nis_ = z_diff.transpose()*S.inverse()*z_diff;
 }
 
 
@@ -228,15 +257,16 @@ VectorXd UKF::PredictSigmaPoint(const VectorXd &sigma_pt, const double &delta_t)
     VectorXd x_sigma_pts = VectorXd::Zero(n_x_);
 
     // Generate curr state values for read-ability
-    double px, py, vel, yaw, yawd, nu_a, nu_yawdd;
     double px_rate, py_rate;
     double dt2 = delta_t*delta_t;
 
-    std::tie(px, py, vel, yaw, yawd, nu_a, nu_yawdd) = std::make_tuple(sigma_pt(0), sigma_pt(1), sigma_pt(2),
-                                                                       sigma_pt(3), sigma_pt(4), sigma_pt(5), sigma_pt(6));
-
-    // Angle normalization
-    normalize_angle(yaw);
+    const double px   = sigma_pt(0);
+    const double py   = sigma_pt(1);
+    const double vel  = sigma_pt(2);
+    const double yaw  = sigma_pt(3);
+    const double yawd = sigma_pt(4);
+    const double nu_a = sigma_pt(5);
+    const double nu_yawdd = sigma_pt(6);
 
     if(fabs(yawd) > 0.0001) {                                    //avoid division by zero
         px_rate = vel/yawd*(sin(yaw + yawd*delta_t) - sin(yaw));
@@ -281,7 +311,7 @@ void  UKF::CalculateMeanAndCovariance(){
      * Calculate Process Covariance Matrix
      ******************************************/
     for(int i = 0; i < Xsig_pred_.cols(); i++){
-        MatrixXd x_diff = Xsig_pred_.col(i) - Xsig_pred_.col(0); // <--- using this over x_mean makes code more robust.
+        MatrixXd x_diff = Xsig_pred_.col(i) - x_mean; // <--- using this over x_mean makes code more robust.
         normalize_angle(x_diff(3));
         P += weights_(i)*x_diff*x_diff.transpose();
     }
@@ -301,11 +331,11 @@ void  UKF::CalculateMeanAndCovariance(){
  */
 VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &type){
 
-    double px   = sigma_pt(0);
-    double py   = sigma_pt(1);
-    double v    = sigma_pt(2);
-    double yaw  = sigma_pt(3);
-    double yawd = sigma_pt(4);
+    const double px   = sigma_pt(0);
+    const double py   = sigma_pt(1);
+    const double v    = sigma_pt(2);
+    const double yaw  = sigma_pt(3);
+    const double yawd = sigma_pt(4);
 
     VectorXd  result = (type==SensorType::LASER) ? VectorXd::Zero(2) : VectorXd::Zero(3);
     switch(type)
@@ -315,15 +345,12 @@ VectorXd UKF::ConvertToMeasurement(const VectorXd &sigma_pt,const SensorType &ty
                 break;
 
             case SensorType::RADAR:
-                if (fabs(px) < 0.001) px = 0.001;
                 double rho      = sqrt(px*px + py*py);
                 double phi      = atan2(py, px);
                 double rho_dot  =  0.0;
 
                 if (fabs(rho) > 0.001)
                     rho_dot = (px*(v*cos(yaw)) + py*(v*sin(yaw)))/rho;
-
-                normalize_angle(phi);
 
                 result << rho, phi, rho_dot;
                 break;
